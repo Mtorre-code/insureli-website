@@ -14,7 +14,7 @@ const tiles = [
 const types = [...tiles.map((t) => t.t), 'Other'];
 ---
 <Base title="Service Center" description="Existing Insure LI clients: request ID cards, certificates of insurance, policy changes, claim help or a free policy review." section="service">
-  <PageHero eyebrow="Service center" title="Manage your policies" lead={`Claims, ID cards, certificates and policy changes. Our office is open ${site.hours.replace('Mon – Fri: ', 'Mon–Fri ')}, with after-hours help 24/7 at ${site.afterHours}.`} />
+  <PageHero eyebrow="Service center" title="Manage your policies" lead={`Claims, ID cards, certificates and policy changes. Our office is open Mon–Fri 8:30 AM–5:00 PM.`} />
 
   <section class="section bg-mist">
     <div class="wrap grid grid-3 stagger">
@@ -37,8 +37,8 @@ const types = [...tiles.map((t) => t.t), 'Other'];
         <p class="lead">Send a request and our team will take care of it, usually the same business day. Policy changes aren't in effect until we confirm them with you.</p>
         <a href={site.phoneHref} class="btn btn-dark" style="align-self:flex-start">Or call {site.phone}</a>
         <div class="card" style="background:var(--sky);border-color:var(--sky);margin-top:8px">
-          <p style="font-family:var(--head);font-weight:800">Emergency after hours?</p>
-          <p>Call our 24/7 line at <a href={site.afterHoursHref}>{site.afterHours}</a>.</p>
+          <p style="font-family:var(--head);font-weight:800">Have a claim after hours?</p>
+          <p>Call your carrier's claims line listed on your policy or ID card, then let us know and we'll help.</p>
         </div>
       </div>
       <form name="service" method="POST" action="/thank-you?f=service" data-netlify="true" netlify-honeypot="company_website" class="form-card reveal from-right" style="flex:999 1 560px;min-width:0" id="serviceForm">

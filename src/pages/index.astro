@@ -7,7 +7,7 @@ import TeamGrid from '../components/TeamGrid.astro';
 import { site } from '../data/site';
 import { personal, commercial } from '../data/coverages';
 
-const chips = ['Home', 'Auto', 'Flood', 'Umbrella', 'Landlord', 'Business', 'Life', 'Policy checkup'];
+const chips = ['Home', 'Auto', 'Flood', 'Umbrella', 'Landlord', 'Life', 'Business owners (BOP)', 'General liability', 'Commercial auto', 'Workers’ comp', 'Commercial umbrella', 'Policy checkup'];
 const audiences = [
   { href: '/flood-insurance', title: 'Homeowners near the water', text: 'Coastal and flood-zone homes are where we shine: homeowners plus a separate flood policy, so you’re not caught off guard.', icon: 'M2 12c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 17c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M12 3v4' },
   { href: '/auto-insurance', title: 'Families & drivers', text: 'Auto, home and umbrella bundled with one agency, with multi-car, multi-policy, senior and retiree discounts.', icon: 'M8 7a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM16 8a2 2 0 110 4 2 2 0 010-4zM3 20v-1a5 5 0 0110 0v1M13 20v-.5a3.5 3.5 0 017 0v.5' },
@@ -16,7 +16,7 @@ const audiences = [
 ];
 const quiz = [
   "Has your dwelling coverage kept up with today's rebuild costs?",
-  'If water came up from the bay or the drains, would you be covered?',
+  'If floodwater or a drain backup reached your home, would you be covered?',
   'Would your liability limits hold up after a serious accident?',
   'Are you getting every discount you qualify for?',
 ];
@@ -35,7 +35,7 @@ const service = [
   { label: 'Billing question', icon: 'M3 6h18v12H3zM3 10h18M7 15h3', type: 'Billing question' },
 ];
 ---
-<Base title="Insure LI Agency | Home, Auto, Flood & Business Insurance in Massapequa, NY" description="Family-run independent insurance agency in Massapequa, Long Island. We compare multiple carriers for home, auto, flood, umbrella, life and business insurance across NY, NJ and FL." section="home">
+<Base title="Insure LI Agency | Home, Auto, Flood & Business Insurance in Massapequa, NY" description="Family-run independent insurance agency in Massapequa, NY. We compare multiple carriers for home, auto, flood, umbrella, life and business insurance across NY, NJ, CT, PA and FL." section="home">
   <section class="hero">
     <div class="glow a" aria-hidden="true"></div>
     <div class="glow b" aria-hidden="true"></div>
@@ -46,23 +46,23 @@ const service = [
     <div class="wrap">
       <div class="hero-inner">
         <div class="hero-copy">
-          <p class="eyebrow fade-up d1" style="display:inline-flex;align-items:center;gap:10px"><span class="twinkle"><Icon d={star} size={16} stroke="#1E88E5" /></span> Family-run · Massapequa, Long Island</p>
+          <p class="eyebrow fade-up d1" style="display:inline-flex;align-items:center;gap:10px"><span class="twinkle"><Icon d={star} size={16} stroke="#1E88E5" /></span> Family-run · Serving NY, NJ, CT, PA &amp; FL</p>
           <h1 class="fade-up d2">If you don't ask, <span class="accent">you won't know.</span></h1>
           <p class="lead fade-up d3" style="font-size:19px;max-width:600px">Most people overpay or are under-covered and never find out. We compare multiple carriers for your home, car and business, explain exactly what's covered and what isn't, and let you decide.</p>
           <div class="hero-stats fade-up d4">
-            <div><p class="num">NY · NJ · FL</p><p class="lbl">States we serve</p></div>
-            <div><p class="num">24/7</p><p class="lbl">After-hours line</p></div>
+            <div><p class="num">NY · NJ · CT · PA · FL</p><p class="lbl">States we serve</p></div>
+            <div><p class="num">Home · Auto · Business</p><p class="lbl">Personal &amp; commercial</p></div>
             <a href={site.reviewsUrl}><p class="num stars" style="letter-spacing:2px">★★★★★</p><p class="lbl">Google reviews</p></a>
           </div>
         </div>
         <div class="fade-up d3" style="flex:1 1 380px;min-width:0">
           <form action="/quote" method="get" class="form-card" style="border-top:6px solid var(--blue);display:flex;flex-direction:column;gap:18px" id="heroPicker">
             <p style="font-family:var(--head);font-weight:800;font-size:24px;line-height:1.2">What should we look at for you?</p>
-            <p style="font-size:15px;color:var(--muted)">Tap everything that applies. It's free and there's no obligation.</p>
+            <p style="font-size:15px;color:var(--muted)">Personal or commercial, tap everything that applies. It's free and there's no obligation.</p>
             <fieldset style="border:0;padding:0;margin:0">
               <legend class="hp">Coverage types</legend>
               <div class="chip-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-                {chips.map((c) => <label class="chip"><input type="checkbox" name="lines" value={c} /><span>{c}</span></label>)}
+                {chips.map((c) => <label class="chip"><input type="checkbox" name="lines" value={c} /><span>{c.replace('Business owners (BOP)', 'Business (BOP)')}</span></label>)}
               </div>
             </fieldset>
             <button type="submit" class="btn btn-primary pulse" style="font-size:17px" id="heroCta">Start my free quote <span class="arrow">→</span></button>
@@ -77,7 +77,7 @@ const service = [
   <section class="section bg-mist">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="stack"><p class="eyebrow">Who we help</p><h2 class="h2">Built for the way Long Island lives</h2></div>
+        <div class="stack"><p class="eyebrow">Who we help</p><h2 class="h2">Built around the way you live and work</h2></div>
         <p class="lead" style="max-width:380px;font-size:16px">Personal, commercial and life insurance from one local agency, with multi-policy discounts when you bundle.</p>
       </div>
       <div class="grid grid-2 stagger">
@@ -170,7 +170,7 @@ const service = [
   <section class="section bg-mist">
     <div class="wrap">
       <div class="section-head reveal">
-        <div class="stack"><p class="eyebrow">Family-run, locally owned</p><h2 class="h2">When you call, you get one of us</h2><p class="lead">Insure LI is run by brothers Michael and Steven Torre, with office manager Jakki Agopian keeping everything moving. No call centers, no runaround, just the same familiar people every time.</p></div>
+        <div class="stack"><p class="eyebrow">Family-run, independent</p><h2 class="h2">When you call, you get one of us</h2><p class="lead">Insure LI is run by brothers Michael and Steven Torre, with office manager Jakki Agopian keeping everything moving. No call centers, no runaround, just the same familiar people every time.</p></div>
         <a href="/about" style="font-family:var(--head);font-weight:700;text-decoration:none">About our agency →</a>
       </div>
       <TeamGrid />
@@ -182,7 +182,7 @@ const service = [
       <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:center">
         <div class="stack reveal from-left" style="flex:999 1 480px;min-width:0;gap:20px">
           <p class="eyebrow">Our promise</p>
-          <h2 class="h2">We work for you, not the insurance company</h2>
+          <h2 class="h2">We work for you.</h2>
           <ul class="check-list">
             {promises.map((p) => <li><Icon d={star} size={20} stroke="#1E88E5" />{p}</li>)}
           </ul>

@@ -5,8 +5,6 @@ export const site = {
   url: 'https://www.insureli.com',
   phone: '(516) 308-4166',
   phoneHref: 'tel:+15163084166',
-  afterHours: '(516) 846-8410',
-  afterHoursHref: 'tel:+15168468410',
   fax: '(516) 268-5577',
   email: 'customerservice@insureli.com',
   address: {
@@ -21,7 +19,7 @@ export const site = {
     'https://www.google.com/maps/place/Insure+LI+Agency+Inc/@40.6825434,-73.4747594,15z/data=!4m8!3m7!1s0x89c27f476b63ba55:0xe8f2c87f990677c9!8m2!3d40.6825434!4d-73.4747594!9m1!1b1!16s%2Fg%2F11qrl990yl',
   leaveReviewUrl: 'https://g.page/r/Ccl3Bpl_yPLoEBM/review',
   hours: 'Mon – Fri: 8:30 AM – 5:00 PM',
-  states: ['New York', 'New Jersey', 'Florida'],
+  states: ['New York', 'New Jersey', 'Connecticut', 'Pennsylvania', 'Florida'],
 };
 
 export const team = [
@@ -35,13 +33,13 @@ export const team = [
     name: 'Steven Torre',
     title: 'Owner & Licensed Insurance Broker',
     email: 'steve@insureli.com',
-    photo: null,
+    photo: '/images/steven-torre.jpg',
   },
   {
     name: 'Jakki Agopian',
     title: 'Office Manager',
-    email: 'customerservice@insureli.com',
-    photo: null,
+    email: 'jakki@insureli.com',
+    photo: '/images/jakki-agopian.jpg',
   },
 ];
 

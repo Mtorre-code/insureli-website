@@ -7,8 +7,8 @@ const general = [
   { q: 'Does it cost more to use an agent?', a: 'No. There’s no fee for our quotes or service. We’re paid by the insurance company, and in many cases you’ll find the same or better pricing than buying direct, with someone local to call.' },
   { q: 'What affects my insurance rate?', a: 'It depends on the policy, but common factors include your location, claims history, driving record, the age and condition of your home, credit-based insurance scores where allowed, and the coverage limits and deductibles you choose.' },
   { q: 'How do I get a certificate of insurance (COI)?', a: 'Existing clients can request one on our Service Center page. Include the certificate holder’s name and address and any contract requirements, and we’ll usually send it the same business day.' },
-  { q: 'Which states do you serve?', a: 'We’re licensed in New York, New Jersey and Florida.' },
-  { q: 'What should I do if I have a claim after hours?', a: 'Call our 24/7 line at (516) 846-8410, or call your insurance company’s claims number listed on your policy or ID card.' },
+  { q: 'Which states do you serve?', a: 'We serve clients in New York, New Jersey, Connecticut, Pennsylvania and Florida.' },
+  { q: 'What should I do if I have a claim after hours?', a: 'Call your insurance company’s claims number listed on your policy or ID card. Then let us know the next business day and we’ll help with the rest.' },
 ];
 const all = [...general, ...coverages.flatMap((c) => c.faqs)];
 const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: all.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };

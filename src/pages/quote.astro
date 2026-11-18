@@ -2,7 +2,9 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { site } from '../data/site';
-const lines = ['Home', 'Auto', 'Flood', 'Umbrella', 'Landlord', 'Renters', 'Boat / RV / Motorcycle', 'Life', 'Business', 'Policy checkup', 'Other'];
+const personalLines = ['Home', 'Auto', 'Flood', 'Umbrella', 'Landlord', 'Renters', 'Boat / RV / Motorcycle', 'Life'];
+const commercialLines = ['Business owners (BOP)', 'General liability', 'Commercial auto', 'Workers’ comp', 'Contractors', 'Commercial umbrella'];
+const otherLines = ['Policy checkup', 'Other'];
 const check = 'M20 6L9 17l-5-5';
 ---
 <Base title="Get a Free Insurance Quote" description="Request a free, no-obligation insurance quote from Insure LI Agency. We shop multiple carriers for home, auto, flood, life and business coverage." section="quote" cta={false}>
@@ -25,9 +27,14 @@ const check = 'M20 6L9 17l-5-5';
         <fieldset class="form-step" style="border:0;margin:0">
           <legend class="hp">What would you like quoted?</legend>
           <h2><span class="step-num">1</span> What would you like quoted? <span style="font-family:var(--body);font-weight:500;font-size:14px;color:var(--muted)">Select all that apply</span></h2>
-          <div class="chip-grid">
-            {lines.map((l) => <label class="chip"><input type="checkbox" name="lines" value={l} /><span>{l}</span></label>)}
-          </div>
+          {[['Personal', personalLines], ['Commercial', commercialLines], ['Other', otherLines]].map(([label, list]) => (
+            <div class="stack" style="gap:10px">
+              <p class="eyebrow" style="font-size:12px">{label}</p>
+              <div class="chip-grid">
+                {(list as string[]).map((l) => <label class="chip"><input type="checkbox" name="lines" value={l} /><span>{l}</span></label>)}
+              </div>
+            </div>
+          ))}
         </fieldset>
 
         <div class="form-step">
@@ -46,7 +53,7 @@ const check = 'M20 6L9 17l-5-5';
 
         <div class="form-step" id="details" hidden>
           <h2><span class="step-num">3</span> A few quick details</h2>
-          <div class="cond" data-for="Home Flood Landlord">
+          <div class="cond" data-for="Home|Flood|Landlord">
             <h3>Home / Flood / Landlord</h3>
             <div class="fields">
               <div class="field"><label for="np">Is this a new purchase?</label><select id="np" name="home_new_purchase"><option>No, I already own it</option><option>Yes, closing soon</option><option>I rent</option></select></div>
@@ -64,7 +71,7 @@ const check = 'M20 6L9 17l-5-5';
               <div class="field"><label for="ar">Renewal date</label><input id="ar" name="auto_renewal" type="date" /></div>
             </div>
           </div>
-          <div class="cond" data-for="Business">
+          <div class="cond" data-for="Business owners (BOP)|General liability|Commercial auto|Workers’ comp|Contractors|Commercial umbrella">
             <h3>Business / Commercial</h3>
             <div class="fields">
               <div class="field"><label for="bn">Business name</label><input id="bn" name="business_name" /></div>
@@ -120,7 +127,7 @@ const check = 'M20 6L9 17l-5-5';
       const picked = [...form.querySelectorAll<HTMLInputElement>('input[name="lines"]:checked')].map((i) => i.value);
       let any = false;
       conds.forEach((c) => {
-        const on = c.dataset.for!.split(' ').some((k) => picked.includes(k));
+        const on = c.dataset.for!.split('|').some((k) => picked.includes(k));
         c.classList.toggle('show', on);
         any ||= on;
       });

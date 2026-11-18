@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "node organize.mjs && astro dev",
-    "build": "node organize.mjs && astro build",
+    "dev": "astro dev",
+    "build": "astro build",
     "preview": "astro preview"
   },
   "dependencies": {

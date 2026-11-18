@@ -81,7 +81,7 @@ const chevron = 'M6 9l6 6 6-6';
       <a href={site.mapsUrl} class="hide-sm">{site.address.street}, {site.address.city}, {site.address.state} {site.address.zip}</a>
       <div class="right">
         <span class="hide-sm">{site.hours.replace(': ', ' ')}</span>
-        <a href={site.afterHoursHref}>24/7 after hours: {site.afterHours}</a>
+        <a href={site.phoneHref}>{site.phone}</a>
         <a href={site.reviewsUrl}><span class="stars" aria-hidden="true">★★★★★</span> Google Reviews</a>
       </div>
     </div>
@@ -143,13 +143,12 @@ const chevron = 'M6 9l6 6 6-6';
       <div class="cols">
         <div class="stack" style="gap:14px">
           <img src="/images/logo-light.png" alt="Insure LI Agency Inc." width="220" height="69" loading="lazy" />
-          <p>Locally owned personal &amp; commercial insurance. Proudly serving New York, New Jersey and Florida.</p>
+          <p>Family-run personal &amp; commercial insurance, based in Massapequa, NY. Serving clients in New York, New Jersey, Connecticut, Pennsylvania and Florida.</p>
         </div>
         <div>
           <h3>Contact</h3>
           <a href={site.mapsUrl}>{site.address.street}<br />{site.address.city}, {site.address.state} {site.address.zip}</a>
           <a href={site.phoneHref}>Office: {site.phone}</a>
-          <a href={site.afterHoursHref}>24/7 after hours: {site.afterHours}</a>
           <span style="display:block;padding:3px 0">Fax: {site.fax}</span>
           <a href={`mailto:${site.email}`}>{site.email}</a>
         </div>
@@ -173,7 +172,7 @@ const chevron = 'M6 9l6 6 6-6';
         </div>
       </div>
       <div class="legal">
-        <p>© {new Date().getFullYear()} Insure LI Agency Inc. All rights reserved. Licensed in NY, NJ &amp; FL.</p>
+        <p>© {new Date().getFullYear()} Insure LI Agency Inc. All rights reserved. Serving NY, NJ, CT, PA &amp; FL.</p>
         <p>Quotes are subject to underwriting approval. Coverage is not bound until confirmed in writing. <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
       </div>
     </div>
