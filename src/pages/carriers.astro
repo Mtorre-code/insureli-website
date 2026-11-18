@@ -3,14 +3,14 @@ import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import { carriers } from '../data/site';
 ---
-<Base title="Insurance Carriers We Represent" description="As an independent agency, Insure LI compares coverage from multiple insurance carriers, including Travelers, Liberty Mutual, Allstate, Kingstone and Guardian Life." section="">
+<Base title="Insurance Carriers We Represent" description="As an independent agency, Insure LI compares coverage from multiple insurance carriers, including Travelers, Liberty Mutual, Chubb, Progressive and more." section="">
   <PageHero eyebrow="Our carriers" title="More choices, one local agency" lead="Captive agents can only offer one company's policies. As an independent agency, we compare multiple carriers and recommend the one that fits you best." />
   <section class="section bg-mist">
     <div class="wrap">
-      <div class="grid grid-3 stagger">
+      <div class="grid carrier-grid stagger">
         {carriers.map((c) => (
-          <div class="card lift carrier" style="height:140px;min-width:0;font-size:24px">
-            {c.logo ? <img src={c.logo} alt={c.name} loading="lazy" /> : c.name}
+          <div class="card lift carrier carrier-tile" title={c.name}>
+            {c.logo ? <img src={c.logo} alt={c.name} loading="lazy" /> : <span>{c.name}</span>}
           </div>
         ))}
       </div>

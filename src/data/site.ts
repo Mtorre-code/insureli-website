@@ -43,13 +43,26 @@ export const team = [
   },
 ];
 
-// Swap `logo` for a file in /public/carriers/ (e.g. '/carriers/travelers.svg') once approved.
+// Carriers from the Master Company List. Add a logo file to /public/carriers/ and set `logo` to use it.
 export const carriers: { name: string; logo?: string }[] = [
-  { name: 'Travelers' },
-  { name: 'Liberty Mutual' },
-  { name: 'Allstate' },
+  { name: 'Travelers', logo: '/carriers/travelers.svg' },
+  { name: 'Liberty Mutual', logo: '/carriers/liberty-mutual.svg' },
+  { name: 'Chubb', logo: '/carriers/chubb.png' },
+  { name: 'Progressive', logo: '/carriers/progressive.svg' },
+  { name: 'National General', logo: '/carriers/national-general.png' },
+  { name: 'Mercury', logo: '/carriers/mercury.svg' },
+  { name: 'Hagerty', logo: '/carriers/hagerty.svg' },
+  { name: 'Markel', logo: '/carriers/markel.svg' },
+  { name: 'SageSure', logo: '/carriers/sagesure.png' },
+  { name: 'USLI', logo: '/carriers/usli.png' },
+  { name: 'Lemonade', logo: '/carriers/lemonade.svg' },
+  { name: 'Steadily', logo: '/carriers/steadily.svg' },
+  { name: 'GEICO' },
+  { name: 'Foremost' },
   { name: 'Kingstone' },
-  { name: 'Guardian Life' },
+  { name: 'Neptune Flood' },
+  { name: 'Wright Flood' },
+  { name: 'Thimble' },
 ];
 
 export const reviews = [
