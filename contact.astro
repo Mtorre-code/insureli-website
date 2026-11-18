@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const mapSrc = `https://www.google.com/maps?q=${encodeURIComponent('Insure LI Agency Inc, 582 Hicksville Road, Massapequa, NY 11758')}&output=embed`;
+---
+<Base title="Contact Us" description="Contact Insure LI Agency in Massapequa, NY. Call (516) 308-4166, email customerservice@insureli.com or visit 582 Hicksville Road." section="contact">
+  <PageHero eyebrow="Contact us" title="We're here to help" lead="Call, email, stop by the office, or send us a message and we'll get right back to you." />
+
+  <section class="section bg-mist">
+    <div class="wrap grid grid-4 stagger">
+      <div class="card lift"><span class="icon-badge"><Icon d="M12 21s-7-6.2-7-11.5A7 7 0 0112 3a7 7 0 017 6.5C19 14.8 12 21 12 21zM12 7a2.5 2.5 0 110 5 2.5 2.5 0 010-5z" size={26} /></span><h2 style="font-size:20px;margin-top:6px">Visit</h2><p>{site.address.street}<br />{site.address.city}, {site.address.state} {site.address.zip}</p><a href={site.mapsUrl} style="font-weight:700;text-decoration:none">Get directions →</a></div>
+      <div class="card lift"><span class="icon-badge"><Icon d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z" size={26} /></span><h2 style="font-size:20px;margin-top:6px">Call</h2><p>Office: <a href={site.phoneHref}>{site.phone}</a><br />24/7 after hours: <a href={site.afterHoursHref}>{site.afterHours}</a><br />Fax: {site.fax}</p></div>
+      <div class="card lift"><span class="icon-badge"><Icon d="M3 6h18v12H3zM3 7l9 6 9-6" size={26} /></span><h2 style="font-size:20px;margin-top:6px">Email</h2><p><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href="mailto:michael@insureli.com">michael@insureli.com</a><br /><a href="mailto:steve@insureli.com">steve@insureli.com</a></p></div>
+      <div class="card lift"><span class="icon-badge"><Icon d="M12 3a9 9 0 110 18 9 9 0 010-18zM12 7v5l3 2" size={26} /></span><h2 style="font-size:20px;margin-top:6px">Hours</h2><p>{site.hours}<br />Sat – Sun: Closed<br />After-hours service 24/7</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap" style="display:flex;flex-wrap:wrap;gap:40px;align-items:stretch">
+      <form name="contact" method="POST" action="/thank-you?f=contact" data-netlify="true" netlify-honeypot="company_website" class="form-card reveal from-left" style="flex:1 1 480px;min-width:0;display:flex;flex-direction:column;gap:18px">
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="hp"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off" /></label></p>
+        <h2 style="font-size:26px">Send us a message</h2>
+        <div class="fields">
+          <div class="field"><label for="cn">Name</label><input id="cn" name="name" required autocomplete="name" /></div>
+          <div class="field"><label for="cp">Phone</label><input id="cp" name="phone" type="tel" required autocomplete="tel" /></div>
+          <div class="field full"><label for="ce">Email</label><input id="ce" name="email" type="email" required autocomplete="email" /></div>
+          <div class="field full"><label for="cm">Message</label><textarea id="cm" name="message"></textarea></div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="align-self:flex-start">Send message <span class="arrow">→</span></button>
+        <p style="font-size:15px;color:var(--muted)">Looking for a quote? Our <a href="/quote">quote form</a> gets you pricing faster.</p>
+      </form>
+      <div class="reveal from-right" style="flex:1 1 420px;min-width:0;min-height:420px;border-radius:22px;overflow:hidden;border:1px solid var(--border)">
+        <iframe title="Map to Insure LI Agency" src={mapSrc} width="100%" height="100%" style="border:0;min-height:420px;display:block" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+</Base>

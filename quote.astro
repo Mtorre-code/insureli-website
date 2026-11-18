@@ -1,0 +1,136 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const lines = ['Home', 'Auto', 'Flood', 'Umbrella', 'Landlord', 'Renters', 'Boat / RV / Motorcycle', 'Life', 'Business', 'Policy checkup', 'Other'];
+const check = 'M20 6L9 17l-5-5';
+---
+<Base title="Get a Free Insurance Quote" description="Request a free, no-obligation insurance quote from Insure LI Agency. We shop multiple carriers for home, auto, flood, life and business coverage." section="quote" cta={false}>
+  <section class="hero page-hero" style="padding-bottom:0">
+    <div class="glow a" aria-hidden="true"></div>
+    <div class="wrap" style="padding:64px 32px 140px">
+      <p class="eyebrow fade-up d1">Free quote · about 3 minutes</p>
+      <h1 class="fade-up d2" style="margin-top:14px">Let's find you the right coverage</h1>
+      <p class="lead fade-up d3" style="margin-top:14px;max-width:640px;font-size:19px">Tell us a little about what you'd like to insure. Our team will shop our carriers and follow up with your options, with no obligation.</p>
+    </div>
+  </section>
+
+  <section style="margin-top:-100px;padding-bottom:96px;position:relative">
+    <div class="wrap" style="display:flex;flex-wrap:wrap;gap:32px;align-items:flex-start">
+      <form name="quote" method="POST" action="/thank-you?f=quote" data-netlify="true" netlify-honeypot="company_website" class="form-card fade-up d3" style="flex:999 1 620px;min-width:0" id="quoteForm">
+        <input type="hidden" name="form-name" value="quote" />
+        <p class="hp"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off" /></label></p>
+        <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+        <fieldset class="form-step" style="border:0;margin:0">
+          <legend class="hp">What would you like quoted?</legend>
+          <h2><span class="step-num">1</span> What would you like quoted? <span style="font-family:var(--body);font-weight:500;font-size:14px;color:var(--muted)">Select all that apply</span></h2>
+          <div class="chip-grid">
+            {lines.map((l) => <label class="chip"><input type="checkbox" name="lines" value={l} /><span>{l}</span></label>)}
+          </div>
+        </fieldset>
+
+        <div class="form-step">
+          <h2><span class="step-num">2</span> Your contact info</h2>
+          <div class="fields">
+            <div class="field"><label for="fn">First name</label><input id="fn" name="first_name" required autocomplete="given-name" /></div>
+            <div class="field"><label for="ln">Last name</label><input id="ln" name="last_name" required autocomplete="family-name" /></div>
+            <div class="field"><label for="ph">Phone</label><input id="ph" name="phone" type="tel" required autocomplete="tel" /></div>
+            <div class="field"><label for="em">Email</label><input id="em" name="email" type="email" required autocomplete="email" /></div>
+            <div class="field"><label for="st">Street address</label><input id="st" name="street" autocomplete="street-address" /></div>
+            <div class="field"><label for="tz">Town &amp; ZIP</label><input id="tz" name="town_zip" autocomplete="postal-code" /></div>
+            <div class="field"><label for="bw">Best way to reach you</label><select id="bw" name="contact_method"><option>Phone call</option><option>Text</option><option>Email</option></select></div>
+            <div class="field"><label for="bt">Best time</label><select id="bt" name="contact_time"><option>Morning</option><option>Afternoon</option><option>Evening</option></select></div>
+          </div>
+        </div>
+
+        <div class="form-step" id="details" hidden>
+          <h2><span class="step-num">3</span> A few quick details</h2>
+          <div class="cond" data-for="Home Flood Landlord">
+            <h3>Home / Flood / Landlord</h3>
+            <div class="fields">
+              <div class="field"><label for="np">Is this a new purchase?</label><select id="np" name="home_new_purchase"><option>No, I already own it</option><option>Yes, closing soon</option><option>I rent</option></select></div>
+              <div class="field"><label for="hd">Closing / renewal date</label><input id="hd" name="home_date" type="date" /></div>
+              <div class="field"><label for="hc">Current carrier (if any)</label><input id="hc" name="home_carrier" /></div>
+              <div class="field"><label for="ra">Roof age (approx.)</label><input id="ra" name="roof_age" inputmode="numeric" /></div>
+            </div>
+          </div>
+          <div class="cond" data-for="Auto">
+            <h3>Auto</h3>
+            <div class="fields">
+              <div class="field"><label for="nv">Number of vehicles</label><input id="nv" name="vehicles" type="number" min="1" /></div>
+              <div class="field"><label for="nd">Number of drivers</label><input id="nd" name="drivers" type="number" min="1" /></div>
+              <div class="field"><label for="ac">Current carrier</label><input id="ac" name="auto_carrier" /></div>
+              <div class="field"><label for="ar">Renewal date</label><input id="ar" name="auto_renewal" type="date" /></div>
+            </div>
+          </div>
+          <div class="cond" data-for="Business">
+            <h3>Business / Commercial</h3>
+            <div class="fields">
+              <div class="field"><label for="bn">Business name</label><input id="bn" name="business_name" /></div>
+              <div class="field"><label for="bty">Type of business</label><input id="bty" name="business_type" /></div>
+              <div class="field"><label for="be">Number of employees</label><input id="be" name="employees" type="number" min="0" /></div>
+              <div class="field"><label for="brv">Annual revenue (approx.)</label><input id="brv" name="revenue" /></div>
+            </div>
+          </div>
+          <div class="cond" data-for="Life">
+            <h3>Life</h3>
+            <div class="fields">
+              <div class="field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date" /></div>
+              <div class="field"><label for="ca">Coverage amount</label><select id="ca" name="life_amount"><option>Not sure, help me decide</option><option>$250,000</option><option>$500,000</option><option>$1,000,000+</option></select></div>
+              <div class="field"><label for="tb">Tobacco use in last 12 months?</label><select id="tb" name="tobacco"><option>No</option><option>Yes</option></select></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-step">
+          <div class="field"><label for="msg">Anything else we should know? <span style="font-weight:400;color:var(--muted)">Optional</span></label><textarea id="msg" name="message"></textarea></div>
+          <label class="consent"><input type="checkbox" name="consent" value="yes" required /> <span>I agree that Insure LI Agency may contact me by phone, text or email about my quote. Submitting this form does not bind coverage. See our <a href="/privacy">privacy policy</a>.</span></label>
+          <button type="submit" class="btn btn-primary" style="font-size:18px;padding:18px">Get My Free Quote <span class="arrow">→</span></button>
+        </div>
+      </form>
+
+      <aside class="stack fade-up d4" style="flex:1 1 300px;min-width:0;gap:20px;position:sticky;top:110px">
+        <div class="card card-navy" style="gap:12px">
+          <p class="card-title">Your quote goes straight to our team</p>
+          <p style="color:var(--on-dark)">No call centers. Our local, licensed team reviews every request personally.</p>
+          <a href={site.phoneHref} style="color:#fff;font-family:var(--head);font-weight:800;font-size:22px;text-decoration:none">{site.phone}</a>
+        </div>
+        <div class="card" style="gap:12px">
+          <p style="font-family:var(--head);font-weight:800;font-size:18px">Why quote with us</p>
+          <ul class="check-list" style="gap:10px">
+            {['We compare multiple carriers for you', 'Honest options, with the tradeoffs explained', 'Free and no obligation'].map((t) => <li style="font-size:16px"><Icon d={check} size={18} stroke="#1E88E5" width={3} />{t}</li>)}
+          </ul>
+          <a href="/reviews" style="font-weight:700;text-decoration:none"><span class="stars">★★★★★</span> Read our Google reviews</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <script>
+    const form = document.getElementById('quoteForm') as HTMLFormElement;
+    const details = document.getElementById('details')!;
+    const conds = [...document.querySelectorAll<HTMLElement>('.cond')];
+    const bar = document.getElementById('progress')!;
+    const params = new URLSearchParams(location.search);
+    const pre = params.getAll('lines').flatMap((v) => v.split(','));
+    form.querySelectorAll<HTMLInputElement>('input[name="lines"]').forEach((i) => { if (pre.includes(i.value)) i.checked = true; });
+
+    const update = () => {
+      const picked = [...form.querySelectorAll<HTMLInputElement>('input[name="lines"]:checked')].map((i) => i.value);
+      let any = false;
+      conds.forEach((c) => {
+        const on = c.dataset.for!.split(' ').some((k) => picked.includes(k));
+        c.classList.toggle('show', on);
+        any ||= on;
+      });
+      details.hidden = !any;
+      const req = [...form.querySelectorAll<HTMLInputElement>('[required]')];
+      const done = req.filter((r) => (r.type === 'checkbox' ? r.checked : r.value.trim() && r.checkValidity())).length + (picked.length ? 1 : 0);
+      bar.style.width = Math.round((done / (req.length + 1)) * 100) + '%';
+    };
+    form.addEventListener('input', update);
+    form.addEventListener('change', update);
+    update();
+  </script>
+</Base>

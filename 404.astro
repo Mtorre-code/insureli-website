@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Page Not Found" description="That page couldn't be found." noindex>
+  <section class="hero">
+    <div class="glow a" aria-hidden="true"></div>
+    <div class="wrap stack" style="gap:20px;padding-top:110px;padding-bottom:110px;max-width:760px">
+      <p class="eyebrow fade-up d1">404</p>
+      <h1 class="fade-up d2" style="font-size:clamp(36px,5vw,56px)">We couldn't find that page</h1>
+      <p class="lead fade-up d3">It may have moved when we updated our site.</p>
+      <div class="fade-up d4" style="display:flex;gap:14px;flex-wrap:wrap"><a href="/" class="btn btn-primary">Go home</a><a href="/quote" class="btn btn-ghost">Get a quote</a></div>
+    </div>
+  </section>
+</Base>

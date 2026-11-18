@@ -1,0 +1,64 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const tiles = [
+  { t: 'Claim help', d: 'Had a loss? Call us or send a request and we’ll help you start the claim with your carrier.', icon: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM12 8v5M12 16h.01' },
+  { t: 'Auto ID cards', d: 'Need new insurance ID cards? Request them and we’ll email them to you.', icon: 'M3 5h18v14H3zM7 10a2 2 0 104 0 2 2 0 00-4 0M6 16c.5-1.5 1.8-2.5 3-2.5s2.5 1 3 2.5M14 9h4M14 13h4' },
+  { t: 'Certificate of insurance', d: 'Certificates for landlords, lenders, clients and contracts, including additional insureds.', icon: 'M6 3h9l3 3v15H6zM9 9h6M9 13h6M9 17h3' },
+  { t: 'Policy change', d: 'Add a car or driver, update an address, change coverage and more.', icon: 'M4 12a8 8 0 0114-5l2 2M20 12a8 8 0 01-14 5l-2-2M20 4v5h-5M4 20v-5h5' },
+  { t: 'Policy review', d: 'A free review to make sure your limits and discounts still fit.', icon: 'M11 4a7 7 0 100 14 7 7 0 000-14zM21 21l-5-5' },
+  { t: 'Billing question', d: 'Questions about a bill, payment plan or premium change? We’ll sort it out with your carrier.', icon: 'M3 6h18v12H3zM3 10h18M7 15h3' },
+];
+const types = [...tiles.map((t) => t.t), 'Other'];
+---
+<Base title="Service Center" description="Existing Insure LI clients: request ID cards, certificates of insurance, policy changes, claim help or a free policy review." section="service">
+  <PageHero eyebrow="Service center" title="Manage your policies" lead={`Claims, ID cards, certificates and policy changes. Our office is open ${site.hours.replace('Mon – Fri: ', 'Mon–Fri ')}, with after-hours help 24/7 at ${site.afterHours}.`} />
+
+  <section class="section bg-mist">
+    <div class="wrap grid grid-3 stagger">
+      {tiles.map((x) => (
+        <a href={`?type=${encodeURIComponent(x.t)}#request`} class="card" data-type={x.t}>
+          <span class="icon-badge"><Icon d={x.icon} size={26} /></span>
+          <h2 style="font-size:21px;margin-top:6px">{x.t}</h2>
+          <p>{x.d}</p>
+          <span class="more">Request <span>→</span></span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" id="request" style="scroll-margin-top:90px">
+    <div class="wrap" style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+      <div class="stack reveal from-left" style="flex:1 1 320px;gap:16px">
+        <p class="eyebrow">Service request</p>
+        <h2 class="h2">Tell us what you need</h2>
+        <p class="lead">Send a request and our team will take care of it, usually the same business day. Policy changes aren't in effect until we confirm them with you.</p>
+        <a href={site.phoneHref} class="btn btn-dark" style="align-self:flex-start">Or call {site.phone}</a>
+        <div class="card" style="background:var(--sky);border-color:var(--sky);margin-top:8px">
+          <p style="font-family:var(--head);font-weight:800">Emergency after hours?</p>
+          <p>Call our 24/7 line at <a href={site.afterHoursHref}>{site.afterHours}</a>.</p>
+        </div>
+      </div>
+      <form name="service" method="POST" action="/thank-you?f=service" data-netlify="true" netlify-honeypot="company_website" class="form-card reveal from-right" style="flex:999 1 560px;min-width:0" id="serviceForm">
+        <input type="hidden" name="form-name" value="service" />
+        <p class="hp"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off" /></label></p>
+        <div class="fields">
+          <div class="field full"><label for="rt">What do you need?</label><select id="rt" name="request_type">{types.map((t) => <option>{t}</option>)}</select></div>
+          <div class="field"><label for="sn">Name</label><input id="sn" name="name" required autocomplete="name" /></div>
+          <div class="field"><label for="sp">Phone</label><input id="sp" name="phone" type="tel" required autocomplete="tel" /></div>
+          <div class="field"><label for="se">Email</label><input id="se" name="email" type="email" required autocomplete="email" /></div>
+          <div class="field"><label for="pn">Policy number (if handy)</label><input id="pn" name="policy_number" /></div>
+          <div class="field full"><label for="sd">Details</label><textarea id="sd" name="details" placeholder="For certificates, include the certificate holder's name and address and any contract requirements."></textarea></div>
+          <div class="field full"><button type="submit" class="btn btn-primary">Submit request <span class="arrow">→</span></button></div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <script>
+    const t = new URLSearchParams(location.search).get('type');
+    const sel = document.getElementById('rt') as HTMLSelectElement;
+    if (t && [...sel.options].some((o) => o.value === t)) sel.value = t;
+  </script>
+</Base>

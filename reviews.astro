@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site, reviews, fmtDate } from '../data/site';
+---
+<Base title="Client Reviews" description="Read real Google reviews from Insure LI Agency clients across Long Island." section="reviews">
+  <PageHero eyebrow="Client reviews" title="What our clients are saying" lead="Real reviews from our clients on Google. Worked with us? We'd love to hear from you.">
+    <div class="fade-up d4" style="display:flex;flex-wrap:wrap;gap:14px;padding-top:8px">
+      <a href={site.leaveReviewUrl} class="btn btn-primary">Leave us a Google review</a>
+      <a href={site.reviewsUrl} class="btn btn-ghost">View all on Google</a>
+    </div>
+  </PageHero>
+  <section class="section bg-mist">
+    <div class="wrap masonry">
+      {reviews.map((r) => (
+        <figure class="card lift review-card reveal" style="margin:0 0 22px">
+          <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
+          <blockquote style="margin:0;font-size:17px;line-height:1.6">“{r.t}”</blockquote>
+          <figcaption style="color:var(--muted);font-size:15px"><strong style="color:var(--ink)">{r.n}</strong> · Google · {fmtDate(r.d)}</figcaption>
+        </figure>
+      ))}
+    </div>
+  </section>
+</Base>

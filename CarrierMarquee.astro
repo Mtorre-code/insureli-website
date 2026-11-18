@@ -1,0 +1,14 @@
+---
+import { carriers } from '../data/site';
+// Duplicate the list so the loop is seamless.
+const loop = [...carriers, ...carriers, ...carriers, ...carriers];
+---
+<div class="marquee" aria-label="Carriers we work with">
+  <ul class="marquee-track" style="list-style:none;margin:0;padding:0">
+    {loop.map((c, i) => (
+      <li class="carrier" aria-hidden={i >= carriers.length ? 'true' : undefined}>
+        {c.logo ? <img src={c.logo} alt={c.name} loading="lazy" /> : c.name}
+      </li>
+    ))}
+  </ul>
+</div>

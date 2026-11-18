@@ -1,0 +1,259 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ReviewCarousel from '../components/ReviewCarousel.astro';
+import CarrierMarquee from '../components/CarrierMarquee.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import { site } from '../data/site';
+import { personal, commercial } from '../data/coverages';
+
+const chips = ['Home', 'Auto', 'Flood', 'Umbrella', 'Landlord', 'Business', 'Life', 'Policy checkup'];
+const audiences = [
+  { href: '/flood-insurance', title: 'Homeowners near the water', text: 'Coastal and flood-zone homes are where we shine: homeowners plus a separate flood policy, so you’re not caught off guard.', icon: 'M2 12c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M2 17c2.5 0 2.5-2 5-2s2.5 2 5 2 2.5-2 5-2 2.5 2 5 2M12 3v4' },
+  { href: '/auto-insurance', title: 'Families & drivers', text: 'Auto, home and umbrella bundled with one agency, with multi-car, multi-policy, senior and retiree discounts.', icon: 'M8 7a2.5 2.5 0 110 5 2.5 2.5 0 010-5zM16 8a2 2 0 110 4 2 2 0 010-4zM3 20v-1a5 5 0 0110 0v1M13 20v-.5a3.5 3.5 0 017 0v.5' },
+  { href: '/landlord-insurance', title: 'Landlords & investors', text: 'Tenant-occupied homes and multi-family buildings, with liability and loss-of-rent protection.', icon: 'M15 7a4 4 0 11-3.9 4.9L4 19v2h3v-2h2v-2h2l1.1-1.1A4 4 0 0115 7zM16 9h.01' },
+  { href: '/contractors-insurance', title: 'Contractors & small businesses', text: 'General liability, commercial auto, workers’ comp and certificates turned around fast.', icon: 'M14 6l4 4-9 9H5v-4zM16 4l4 4' },
+];
+const quiz = [
+  "Has your dwelling coverage kept up with today's rebuild costs?",
+  'If water came up from the bay or the drains, would you be covered?',
+  'Would your liability limits hold up after a serious accident?',
+  'Are you getting every discount you qualify for?',
+];
+const promises = [
+  'We compare multiple carriers, not just one company.',
+  'We show you the tradeoffs, not just the cheapest price.',
+  'We re-shop at renewal if your rate jumps.',
+  'We stay with you after the sale, through claims and changes.',
+];
+const star = 'M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.6 6.6 19.5l1.2-6L3.3 9.3l6.1-.7z';
+const service = [
+  { label: 'Claim help', icon: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM12 8v5M12 16h.01', type: 'Claim help' },
+  { label: 'ID cards', icon: 'M3 5h18v14H3zM7 10a2 2 0 104 0 2 2 0 00-4 0M6 16c.5-1.5 1.8-2.5 3-2.5s2.5 1 3 2.5M14 9h4M14 13h4', type: 'Auto ID cards' },
+  { label: 'Certificates', icon: 'M6 3h9l3 3v15H6zM9 9h6M9 13h6M9 17h3', type: 'Certificate of insurance' },
+  { label: 'Policy changes', icon: 'M4 12a8 8 0 0114-5l2 2M20 12a8 8 0 01-14 5l-2-2M20 4v5h-5M4 20v-5h5', type: 'Policy change' },
+  { label: 'Billing question', icon: 'M3 6h18v12H3zM3 10h18M7 15h3', type: 'Billing question' },
+];
+---
+<Base title="Insure LI Agency | Home, Auto, Flood & Business Insurance in Massapequa, NY" description="Family-run independent insurance agency in Massapequa, Long Island. We compare multiple carriers for home, auto, flood, umbrella, life and business insurance across NY, NJ and FL." section="home">
+  <section class="hero">
+    <div class="glow a" aria-hidden="true"></div>
+    <div class="glow b" aria-hidden="true"></div>
+    <div class="waves" aria-hidden="true">
+      <svg class="w2" width="2880" height="150" viewBox="0 0 2880 150"><path d="M0 80 Q 180 30 360 80 T 720 80 T 1080 80 T 1440 80 T 1800 80 T 2160 80 T 2520 80 T 2880 80" fill="none" stroke="#64B5F6" stroke-width="3"></path></svg>
+      <svg class="w1" width="2880" height="150" viewBox="0 0 2880 150"><path d="M0 100 Q 240 50 480 100 T 960 100 T 1440 100 T 1920 100 T 2400 100 T 2880 100 V150 H0 Z" fill="#1E88E5"></path></svg>
+    </div>
+    <div class="wrap">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow fade-up d1" style="display:inline-flex;align-items:center;gap:10px"><span class="twinkle"><Icon d={star} size={16} stroke="#1E88E5" /></span> Family-run · Massapequa, Long Island</p>
+          <h1 class="fade-up d2">If you don't ask, <span class="accent">you won't know.</span></h1>
+          <p class="lead fade-up d3" style="font-size:19px;max-width:600px">Most people overpay or are under-covered and never find out. We compare multiple carriers for your home, car and business, explain exactly what's covered and what isn't, and let you decide.</p>
+          <div class="hero-stats fade-up d4">
+            <div><p class="num">NY · NJ · FL</p><p class="lbl">States we serve</p></div>
+            <div><p class="num">24/7</p><p class="lbl">After-hours line</p></div>
+            <a href={site.reviewsUrl}><p class="num stars" style="letter-spacing:2px">★★★★★</p><p class="lbl">Google reviews</p></a>
+          </div>
+        </div>
+        <div class="fade-up d3" style="flex:1 1 380px;min-width:0">
+          <form action="/quote" method="get" class="form-card" style="border-top:6px solid var(--blue);display:flex;flex-direction:column;gap:18px" id="heroPicker">
+            <p style="font-family:var(--head);font-weight:800;font-size:24px;line-height:1.2">What should we look at for you?</p>
+            <p style="font-size:15px;color:var(--muted)">Tap everything that applies. It's free and there's no obligation.</p>
+            <fieldset style="border:0;padding:0;margin:0">
+              <legend class="hp">Coverage types</legend>
+              <div class="chip-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">
+                {chips.map((c) => <label class="chip"><input type="checkbox" name="lines" value={c} /><span>{c}</span></label>)}
+              </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary pulse" style="font-size:17px" id="heroCta">Start my free quote <span class="arrow">→</span></button>
+            <p id="heroHint" style="text-align:center;font-size:14px;color:var(--muted);min-height:20px" aria-live="polite"></p>
+            <a href={site.phoneHref} style="text-align:center;font-weight:600;text-decoration:none">Rather talk? Call {site.phone}</a>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-mist">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="stack"><p class="eyebrow">Who we help</p><h2 class="h2">Built for the way Long Island lives</h2></div>
+        <p class="lead" style="max-width:380px;font-size:16px">Personal, commercial and life insurance from one local agency, with multi-policy discounts when you bundle.</p>
+      </div>
+      <div class="grid grid-2 stagger">
+        {audiences.map((a) => (
+          <a href={a.href} class="card row">
+            <span class="icon-badge" style="border-radius:50%"><Icon d={a.icon} size={28} /></span>
+            <span class="body"><h3>{a.title}</h3><p>{a.text}</p><span class="more">See coverage <span>→</span></span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="stack"><p class="eyebrow">What we insure</p><h2 class="h2">One agency for everything you've worked for</h2></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="/personal-insurance" class="btn btn-dark">Personal</a><a href="/commercial-insurance" class="btn btn-ghost" style="color:var(--navy)">Commercial</a></div>
+      </div>
+      <div class="grid grid-tiles stagger">
+        {[...personal, ...commercial].map((c) => (
+          <a href={`/${c.slug}`} class="card">
+            <span class="icon-badge"><Icon d={c.icon} size={26} /></span>
+            <h3 style="font-size:18px;margin-top:6px">{c.name}</h3>
+            <span class="more">Learn more <span>→</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-navy">
+    <div class="wrap">
+      <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+        <div class="stack reveal from-left" style="flex:1 1 380px;min-width:0;gap:18px">
+          <p class="eyebrow">The Insure LI Policy Checkup</p>
+          <h2 class="h2">How covered are you, really?</h2>
+          <p class="lead">Answer four quick questions. If any of them make you pause, that's exactly what our free checkup is for: we review your policies line by line and shop our carriers if there's a better fit.</p>
+          <div class="card-dark card" style="gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><p style="font-family:var(--head);font-weight:800;font-size:18px;color:#fff">Your confidence score</p><p class="score" id="score">—</p></div>
+            <div class="meter"><span id="meter"></span></div>
+            <p id="verdict" aria-live="polite">Tap an answer for each question to see your score.</p>
+          </div>
+          <a href="/quote?lines=Policy+checkup" class="btn btn-primary" style="align-self:flex-start">Book my free checkup <span class="arrow">→</span></a>
+        </div>
+        <div class="stack stagger" style="flex:999 1 520px;min-width:0;gap:14px" id="quiz">
+          {quiz.map((q, i) => (
+            <div class="quiz-q" data-q={i}>
+              <p><span class="n">0{i + 1}</span>{q}</p>
+              <div class="choice-row" role="group" aria-label={`Question ${i + 1}`}>
+                <button type="button" class="choice" data-v="yes" aria-pressed="false">Yes, I'm sure</button>
+                <button type="button" class="choice" data-v="unsure" aria-pressed="false">Not sure</button>
+                <button type="button" class="choice" data-v="no" aria-pressed="false">No</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+        <div class="reveal" style="flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:16px">
+          <p class="eyebrow">In our clients' words</p>
+          <ReviewCarousel />
+          <div style="display:flex;flex-wrap:wrap;gap:12px;padding-top:8px">
+            <a href="/reviews" class="btn btn-dark">Read all reviews</a>
+            <a href={site.leaveReviewUrl} class="btn btn-ghost" style="color:var(--navy)">Leave a review</a>
+          </div>
+        </div>
+        <div class="stack stagger" style="flex:1 1 340px;min-width:0;gap:14px">
+          {[
+            ['Saved $3,000', 'on car insurance, with better coverage than before.', 'Jessica P'],
+            ['Explained everything', "that was covered and what wasn't.", 'Eunice'],
+            ['Improved coverage', 'without increasing premiums.', 'Susan L'],
+          ].map(([h, t, n]) => (
+            <div class="card lift" style="background:var(--sky);border-color:var(--sky);gap:6px">
+              <p style="font-family:var(--head);font-weight:800;font-size:24px">{h}</p>
+              <p>{t}</p>
+              <p style="font-size:14px;font-weight:700;color:var(--blue-dark)">— {n}, Google review</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-mist">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="stack"><p class="eyebrow">Family-run, locally owned</p><h2 class="h2">When you call, you get one of us</h2><p class="lead">Insure LI is run by brothers Michael and Steven Torre, with office manager Jakki Agopian keeping everything moving. No call centers, no runaround, just the same familiar people every time.</p></div>
+        <a href="/about" style="font-family:var(--head);font-weight:700;text-decoration:none">About our agency →</a>
+      </div>
+      <TeamGrid />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div style="display:flex;flex-wrap:wrap;gap:56px;align-items:center">
+        <div class="stack reveal from-left" style="flex:999 1 480px;min-width:0;gap:20px">
+          <p class="eyebrow">Our promise</p>
+          <h2 class="h2">We work for you, not the insurance company</h2>
+          <ul class="check-list">
+            {promises.map((p) => <li><Icon d={star} size={20} stroke="#1E88E5" />{p}</li>)}
+          </ul>
+        </div>
+        <div class="reveal from-right zoom" style="flex:1 1 340px;min-width:0;background:var(--navy);border-radius:22px;padding:36px;display:flex;flex-direction:column;gap:16px;color:#fff">
+          <img src="/images/shield.png" alt="" width="72" height="84" class="float-y" style="width:72px;height:auto" />
+          <p style="font-family:var(--head);font-weight:800;font-size:22px">An independent agency means choice</p>
+          <p style="color:var(--on-dark)">Captive agents can only sell one company's policies. We're appointed with multiple carriers, so we can compare and move you if your rate jumps.</p>
+          <a href="/carriers" style="color:var(--blue-light);font-weight:700;text-decoration:none">See our carriers →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight bg-mist">
+    <div class="wrap stack" style="gap:28px">
+      <p class="eyebrow reveal" style="text-align:center">Carriers we work with include</p>
+      <CarrierMarquee />
+    </div>
+  </section>
+
+  <section aria-label="Client service" class="bg-navy2">
+    <div class="wrap" style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:20px;padding-top:36px;padding-bottom:36px">
+      <p style="font-family:var(--head);font-weight:800;font-size:22px">Already a client?</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        {service.map((s) => (
+          <a href={`/service-center?type=${encodeURIComponent(s.type)}#request`} class="btn" style="color:#fff;border:1px solid #2a3570;font-family:var(--body);font-weight:600;font-size:15px;padding:12px 16px">
+            <Icon d={s.icon} size={20} stroke="#64B5F6" /> {s.label}
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .float-y { animation: floatY 5s ease-in-out infinite; }
+    @keyframes floatY { 50% { transform: translateY(-10px) rotate(-3deg); } }
+  </style>
+  <script>
+    // Hero picker: live CTA + hint, sends picks to /quote?lines=...
+    const form = document.getElementById('heroPicker') as HTMLFormElement;
+    const cta = document.getElementById('heroCta')!;
+    const hint = document.getElementById('heroHint')!;
+    form.addEventListener('change', () => {
+      const n = form.querySelectorAll('input:checked').length;
+      cta.innerHTML = (n ? `Start my quote (${n})` : 'Start my free quote') + ' <span class="arrow">→</span>';
+      hint.textContent = n === 0 ? '' : n === 1 ? 'Great! We’ll compare carriers for you.' : n >= 3 ? `Bundling ${n} policies could unlock multi-policy discounts.` : 'Bundling could save you more.';
+    });
+
+    // Checkup quiz
+    const answers: Record<string, string> = {};
+    const score = document.getElementById('score')!;
+    const meter = document.getElementById('meter')!;
+    const verdict = document.getElementById('verdict')!;
+    document.querySelectorAll<HTMLElement>('.quiz-q').forEach((q) => {
+      q.querySelectorAll<HTMLButtonElement>('.choice').forEach((b) => {
+        b.addEventListener('click', () => {
+          q.querySelectorAll('.choice').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+          q.classList.add('answered');
+          answers[q.dataset.q!] = b.dataset.v!;
+          const answered = Object.keys(answers).length;
+          const yes = Object.values(answers).filter((v) => v === 'yes').length;
+          const pct = Math.round((yes / 4) * 100);
+          score.textContent = pct + '%';
+          meter.style.width = pct + '%';
+          meter.style.background = pct >= 75 ? '#1E88E5' : pct >= 50 ? '#64B5F6' : '#F4B400';
+          verdict.textContent = answered < 4 ? `Keep going: ${4 - answered} to go.`
+            : yes === 4 ? 'Nice! You’re in good shape. A quick checkup can still uncover missed discounts.'
+            : 'You may have gaps or be overpaying. That’s exactly what our free checkup is for.';
+        });
+      });
+    });
+  </script>
+</Base>

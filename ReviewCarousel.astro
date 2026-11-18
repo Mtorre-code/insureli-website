@@ -1,0 +1,42 @@
+---
+import { reviews, fmtDate } from '../data/site';
+import Icon from './Icon.astro';
+const picks = reviews.filter((r) => r.t.length > 120).slice(0, 8);
+---
+<div class="review-carousel" data-carousel>
+  <p class="stars" style="font-size:24px;letter-spacing:4px" aria-label="5 out of 5 stars">★★★★★</p>
+  <div class="review-stage" aria-live="polite">
+    {picks.map((r, i) => (
+      <figure class={`review-slide ${i === 0 ? 'active' : ''}`} aria-hidden={i === 0 ? 'false' : 'true'}>
+        <blockquote>“{r.t}”</blockquote>
+        <figcaption><strong style="color:var(--ink)">{r.n}</strong> · Google review · {fmtDate(r.d)}</figcaption>
+      </figure>
+    ))}
+  </div>
+  <div class="review-controls">
+    <button type="button" class="round-btn" data-prev aria-label="Previous review"><Icon d="M15 18l-6-6 6-6" /></button>
+    <button type="button" class="round-btn" data-next aria-label="Next review" style="background:var(--navy);color:#fff"><Icon d="M9 6l6 6-6 6" /></button>
+    <div class="dots">
+      {picks.map((_, i) => <button type="button" aria-label={`Show review ${i + 1}`} aria-current={i === 0 ? 'true' : 'false'} data-go={i}></button>)}
+    </div>
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
+    const slides = [...root.querySelectorAll<HTMLElement>('.review-slide')];
+    const dots = [...root.querySelectorAll<HTMLElement>('[data-go]')];
+    let idx = 0;
+    let hold = false;
+    const show = (k: number) => {
+      idx = (k + slides.length) % slides.length;
+      slides.forEach((s, i) => { s.classList.toggle('active', i === idx); s.setAttribute('aria-hidden', String(i !== idx)); });
+      dots.forEach((d, i) => d.setAttribute('aria-current', String(i === idx)));
+    };
+    root.querySelector('[data-prev]')!.addEventListener('click', () => { hold = true; show(idx - 1); });
+    root.querySelector('[data-next]')!.addEventListener('click', () => { hold = true; show(idx + 1); });
+    dots.forEach((d) => d.addEventListener('click', () => { hold = true; show(Number(d.dataset.go)); }));
+    root.addEventListener('mouseenter', () => (hold = true));
+    root.addEventListener('mouseleave', () => (hold = false));
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { if (!hold) show(idx + 1); }, 6500);
+  });
+</script>

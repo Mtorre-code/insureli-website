@@ -1,0 +1,23 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site } from '../data/site';
+---
+<Base title="Privacy Policy" description="How Insure LI Agency collects, uses and protects information submitted through this website." cta={false}>
+  <PageHero eyebrow="Legal" title="Privacy Policy" lead="Last updated November 2026" />
+  <section class="section">
+    <div class="wrap prose">
+      <p>Insure LI Agency Inc. ("we," "us") respects your privacy. This policy explains what information we collect through insureli.com and how we use it.</p>
+      <h2>Information we collect</h2>
+      <p>When you submit a quote, service or contact form, we collect the information you provide, such as your name, phone number, email, address, and details about the property, vehicles, business or people you'd like insured. Our website host may also collect standard technical information such as IP address and browser type.</p>
+      <h2>How we use it</h2>
+      <p>We use your information to respond to your request, prepare quotes, service your policies and contact you by the method you choose. To obtain quotes, we may share information with insurance carriers and the agency management systems we use to process your request. We do not sell your personal information.</p>
+      <h2>Communications</h2>
+      <p>By submitting a form and checking the consent box, you agree that we may contact you by phone, text or email about your request. You can opt out at any time by telling us or replying STOP to a text message.</p>
+      <h2>Security</h2>
+      <p>We use reasonable safeguards to protect your information. Please don't send Social Security numbers or payment card numbers through website forms; we'll collect those securely if they're needed.</p>
+      <h2>Contact</h2>
+      <p>Questions about this policy? Contact us at <a href={`mailto:${site.email}`}>{site.email}</a> or {site.phone}, or write to {site.address.street}, {site.address.city}, {site.address.state} {site.address.zip}.</p>
+    </div>
+  </section>
+</Base>

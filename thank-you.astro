@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+<Base title="Thank You" description="We received your request." noindex cta={false}>
+  <section class="hero" style="min-height:70vh;display:flex;align-items:center">
+    <div class="glow a" aria-hidden="true"></div>
+    <div class="glow b" aria-hidden="true"></div>
+    <div class="wrap stack" style="gap:20px;align-items:center;text-align:center;padding-top:80px;padding-bottom:80px">
+      <div class="check-burst" aria-hidden="true">
+        <svg width="96" height="96" viewBox="0 0 52 52"><circle cx="26" cy="26" r="24" fill="none" stroke="#1E88E5" stroke-width="3" /><path d="M15 27l7 7 15-15" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+      </div>
+      <h1 class="fade-up d1" style="font-size:clamp(36px,5vw,56px)">Thanks, we've got it!</h1>
+      <p class="lead fade-up d2" style="max-width:560px;font-size:19px" id="msg">Our team will review your info and reach out within one business day.</p>
+      <p class="fade-up d3">Need something sooner? Call <a href={site.phoneHref} style="color:#fff;font-weight:700">{site.phone}</a></p>
+      <a href="/" class="btn btn-primary fade-up d4">Back to home</a>
+    </div>
+  </section>
+  <style>
+    .check-burst svg circle { stroke-dasharray: 160; stroke-dashoffset: 160; animation: draw .8s var(--ease) forwards; }
+    .check-burst svg path { stroke-dasharray: 40; stroke-dashoffset: 40; animation: draw .5s .6s var(--ease) forwards; }
+    @keyframes draw { to { stroke-dashoffset: 0; } }
+  </style>
+  <script>
+    const f = new URLSearchParams(location.search).get('f');
+    if (f === 'quote') document.getElementById('msg')!.textContent = 'Our team will review your info, shop our carriers and reach out within one business day.';
+  </script>
+</Base>

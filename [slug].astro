@@ -1,0 +1,104 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import ReviewCarousel from '../components/ReviewCarousel.astro';
+import { coverages, type Coverage } from '../data/coverages';
+import { site } from '../data/site';
+
+export function getStaticPaths() {
+  return coverages.map((c) => ({ params: { slug: c.slug }, props: { c } }));
+}
+const { c } = Astro.props as { c: Coverage };
+const hub = c.group === 'personal' ? { href: '/personal-insurance', label: 'Personal' } : { href: '/commercial-insurance', label: 'Commercial' };
+const related = coverages.filter((x) => x.group === c.group && x.slug !== c.slug).slice(0, 4);
+const check = 'M20 6L9 17l-5-5';
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: c.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+const quoteHref = `/quote?lines=${encodeURIComponent(c.quoteLine)}`;
+---
+<Base title={c.title} description={c.summary} section={c.group} schema={[faqSchema]}>
+  <PageHero eyebrow={`${c.name} insurance`} title={c.headline} lead={c.summary} crumbs={[hub, { href: `/${c.slug}`, label: c.name }]}>
+    <div class="fade-up d4" style="display:flex;flex-wrap:wrap;gap:14px;padding-top:8px">
+      <a href={quoteHref} class="btn btn-primary pulse">Get a {c.name} quote <span class="arrow">→</span></a>
+      <a href={site.phoneHref} class="btn btn-ghost">Call {site.phone}</a>
+    </div>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap" style="display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+      <div class="stack reveal" style="flex:999 1 560px;min-width:0;gap:20px">
+        <span class="icon-badge" style="width:72px;height:72px;border-radius:20px"><Icon d={c.icon} size={34} /></span>
+        {c.intro.map((p) => <p style="font-size:18px;color:var(--muted)">{p}</p>)}
+        <h2 style="font-size:22px;margin-top:8px">{c.listTitle}</h2>
+        <ul class="pill-list stagger">
+          {c.items.map((i) => <li><Icon d={check} size={16} width={3} />{i}</li>)}
+        </ul>
+      </div>
+      <aside class="reveal from-right" style="flex:1 1 320px;min-width:0;position:sticky;top:110px">
+        <div class="card card-navy" style="gap:14px;padding:32px">
+          <p class="card-title">Compare {c.name.toLowerCase()} quotes from multiple carriers</p>
+          <p style="color:var(--on-dark)">Free and no obligation. A licensed member of our team reviews every request personally.</p>
+          <a href={quoteHref} class="btn btn-primary">Start my quote <span class="arrow">→</span></a>
+          <a href={site.phoneHref} style="color:#fff;font-weight:700;text-decoration:none;text-align:center">or call {site.phone}</a>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  {c.extra && (
+    <section class="section tight bg-mist">
+      <div class="wrap grid grid-2 stagger">
+        {c.extra.map((e) => (
+          <div class="card lift" style="gap:12px">
+            <h2 style="font-size:22px">{e.title}</h2>
+            <p>{e.body}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="wrap" style="display:flex;flex-wrap:wrap;gap:56px">
+      <div class="stack reveal" style="flex:1 1 300px;gap:14px">
+        <p class="eyebrow">Common questions</p>
+        <h2 class="h2">{c.name} insurance FAQ</h2>
+        <p class="lead">Don't see your question? <a href="/contact">Ask us</a>. We're happy to explain.</p>
+      </div>
+      <div class="faq stagger" style="flex:999 1 560px;min-width:0">
+        {c.faqs.map((f) => (
+          <details>
+            <summary>{f.q}<span class="plus" aria-hidden="true">+</span></summary>
+            <p class="answer">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-mist">
+    <div class="wrap" style="max-width:900px">
+      <ReviewCarousel />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal"><div class="stack"><p class="eyebrow">Bundle and save</p><h2 class="h2">Related coverage</h2></div><a href={hub.href} style="font-family:var(--head);font-weight:700;text-decoration:none">All {hub.label.toLowerCase()} insurance →</a></div>
+      <div class="grid grid-4 stagger">
+        {related.map((r) => (
+          <a href={`/${r.slug}`} class="card">
+            <span class="icon-badge"><Icon d={r.icon} size={26} /></span>
+            <h3 style="font-size:18px;margin-top:6px">{r.name}</h3>
+            <p style="font-size:15px">{r.summary}</p>
+            <span class="more">Learn more <span>→</span></span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+</Base>

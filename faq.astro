@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { coverages } from '../data/coverages';
+const general = [
+  { q: 'What is an independent insurance agency?', a: 'An independent agency is appointed with multiple insurance companies instead of just one. That lets us compare coverage and price across carriers and recommend the best fit, and re-shop when your rate changes.' },
+  { q: 'Does it cost more to use an agent?', a: 'No. There’s no fee for our quotes or service. We’re paid by the insurance company, and in many cases you’ll find the same or better pricing than buying direct, with someone local to call.' },
+  { q: 'What affects my insurance rate?', a: 'It depends on the policy, but common factors include your location, claims history, driving record, the age and condition of your home, credit-based insurance scores where allowed, and the coverage limits and deductibles you choose.' },
+  { q: 'How do I get a certificate of insurance (COI)?', a: 'Existing clients can request one on our Service Center page. Include the certificate holder’s name and address and any contract requirements, and we’ll usually send it the same business day.' },
+  { q: 'Which states do you serve?', a: 'We’re licensed in New York, New Jersey and Florida.' },
+  { q: 'What should I do if I have a claim after hours?', a: 'Call our 24/7 line at (516) 846-8410, or call your insurance company’s claims number listed on your policy or ID card.' },
+];
+const all = [...general, ...coverages.flatMap((c) => c.faqs)];
+const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: all.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+const groups = [{ name: 'General', faqs: general }, ...coverages.map((c) => ({ name: c.name, faqs: c.faqs, slug: c.slug }))];
+---
+<Base title="Insurance FAQ" description="Answers to common insurance questions from Insure LI Agency: independent agents, rates, certificates, flood, auto, home and business coverage." schema={[schema]}>
+  <PageHero eyebrow="FAQ" title="Straight answers to common questions" lead="Don't see your question here? Call us at (516) 308-4166. We're happy to explain." />
+  <section class="section">
+    <div class="wrap stack" style="gap:56px;max-width:900px">
+      {groups.map((g) => (
+        <div class="stack reveal" style="gap:16px">
+          <h2 style="font-size:26px">{g.slug ? <a href={`/${g.slug}`} style="color:inherit;text-decoration:none">{g.name}</a> : g.name}</h2>
+          <div class="faq">
+            {g.faqs.map((f) => (
+              <details><summary>{f.q}<span class="plus" aria-hidden="true">+</span></summary><p class="answer">{f.a}</p></details>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</Base>

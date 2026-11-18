@@ -1,0 +1,15 @@
+---
+import { team } from '../data/site';
+---
+<div class="grid grid-3 stagger">
+  {team.map((p) => (
+    <div class="card lift team-card">
+      {p.photo
+        ? <img class="avatar" src={p.photo} alt={p.name} width="150" height="150" loading="lazy" />
+        : <div class="avatar" role="img" aria-label={`Photo of ${p.name} coming soon`}>{p.name[0]}</div>}
+      <h3 style="margin-top:8px">{p.name}</h3>
+      <p class="role">{p.title}</p>
+      <a href={`mailto:${p.email}`} style="font-weight:600;text-decoration:none">{p.email}</a>
+    </div>
+  ))}
+</div>

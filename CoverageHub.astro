@@ -1,0 +1,27 @@
+---
+import PageHero from './PageHero.astro';
+import Icon from './Icon.astro';
+import type { Coverage } from '../data/coverages';
+interface Props { list: Coverage[]; eyebrow: string; title: string; lead: string }
+const { list, eyebrow, title, lead } = Astro.props;
+---
+<PageHero eyebrow={eyebrow} title={title} lead={lead}>
+  <div class="fade-up d4" style="display:flex;flex-wrap:wrap;gap:14px;padding-top:8px">
+    <a href="/quote" class="btn btn-primary pulse">Get a free quote <span class="arrow">→</span></a>
+  </div>
+</PageHero>
+<section class="section bg-mist">
+  <div class="wrap grid grid-2 stagger">
+    {list.map((c) => (
+      <a href={`/${c.slug}`} class="card row" style="padding:32px">
+        <span class="icon-badge"><Icon d={c.icon} size={28} /></span>
+        <span class="body">
+          <h2 style="font-size:23px">{c.name}</h2>
+          <p>{c.summary}</p>
+          <span class="more">Explore {c.name.toLowerCase()} <span>→</span></span>
+        </span>
+      </a>
+    ))}
+  </div>
+</section>
+<slot />

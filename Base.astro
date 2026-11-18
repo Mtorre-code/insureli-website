@@ -1,0 +1,238 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+import { personal, commercial } from '../data/coverages';
+import Icon from '../components/Icon.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  section?: 'home' | 'personal' | 'commercial' | 'service' | 'reviews' | 'about' | 'contact' | 'quote' | '';
+  cta?: boolean;
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+const { title, description, section = '', cta = true, schema = [], noindex = false } = Astro.props;
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', site.url).href;
+const fullTitle = title.includes('Insure LI') ? title : `${title} | Insure LI Agency`;
+
+const agency = {
+  '@context': 'https://schema.org',
+  '@type': 'InsuranceAgency',
+  name: site.name,
+  url: site.url,
+  logo: `${site.url}/images/shield.png`,
+  image: `${site.url}/images/shield.png`,
+  telephone: '+1-516-308-4166',
+  faxNumber: '+1-516-268-5577',
+  email: site.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    addressRegion: site.address.state,
+    postalCode: site.address.zip,
+    addressCountry: 'US',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: site.geo.lat, longitude: site.geo.lng },
+  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '08:30', closes: '17:00' }],
+  areaServed: site.states.map((s) => ({ '@type': 'State', name: s })),
+  hasMap: site.mapsUrl,
+};
+const ld = [agency, ...schema];
+const nav = [
+  { href: '/service-center', label: 'Service Center', key: 'service' },
+  { href: '/reviews', label: 'Reviews', key: 'reviews' },
+  { href: '/about', label: 'About', key: 'about' },
+  { href: '/contact', label: 'Contact', key: 'contact' },
+];
+const chevron = 'M6 9l6 6 6-6';
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  {noindex && <meta name="robots" content="noindex" />}
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/images/shield.png" />
+  <meta name="theme-color" content="#050D37" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Insure LI Agency" />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={`${site.url}/images/shield.png`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script is:inline>document.documentElement.classList.add('js');</script>
+  <style is:global>@view-transition { navigation: auto; }</style>
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="topbar">
+    <div class="wrap">
+      <a href={site.mapsUrl} class="hide-sm">{site.address.street}, {site.address.city}, {site.address.state} {site.address.zip}</a>
+      <div class="right">
+        <span class="hide-sm">{site.hours.replace(': ', ' ')}</span>
+        <a href={site.afterHoursHref}>24/7 after hours: {site.afterHours}</a>
+        <a href={site.reviewsUrl}><span class="stars" aria-hidden="true">★★★★★</span> Google Reviews</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header" id="header">
+    <div class="wrap">
+      <a href="/" class="logo"><img src="/images/logo-light.png" alt="Insure LI Agency Inc. home" width="912" height="284" /></a>
+      <nav class="nav" aria-label="Main">
+        <a href="/" aria-current={section === 'home' ? 'page' : undefined}>Home</a>
+        <div class={`dd ${section === 'personal' ? 'active' : ''}`}>
+          <button type="button" aria-haspopup="true">Personal <Icon d={chevron} size={16} /></button>
+          <div class="dd-menu">
+            {personal.map((c) => <a href={`/${c.slug}`}><Icon d={c.icon} size={20} stroke="#1E88E5" /> {c.name}</a>)}
+            <a href="/personal-insurance" class="all">All personal insurance →</a>
+          </div>
+        </div>
+        <div class={`dd ${section === 'commercial' ? 'active' : ''}`}>
+          <button type="button" aria-haspopup="true">Commercial <Icon d={chevron} size={16} /></button>
+          <div class="dd-menu">
+            {commercial.map((c) => <a href={`/${c.slug}`}><Icon d={c.icon} size={20} stroke="#1E88E5" /> {c.name}</a>)}
+            <a href="/commercial-insurance" class="all">All commercial insurance →</a>
+          </div>
+        </div>
+        {nav.map((n) => <a href={n.href} aria-current={section === n.key ? 'page' : undefined}>{n.label}</a>)}
+      </nav>
+      <div class="header-cta">
+        <a href={site.phoneHref} class="tel">{site.phone}</a>
+        <a href="/quote" class="btn btn-primary">Get a Free Quote</a>
+        <button type="button" class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileNav" aria-label="Open menu">
+          <Icon d="M4 7h16M4 12h16M4 17h16" />
+        </button>
+      </div>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+      <div class="wrap">
+        <a href="/">Home</a>
+        <p class="label">Personal</p>
+        {personal.map((c) => <a class="sub" href={`/${c.slug}`}>{c.name}</a>)}
+        <p class="label">Commercial</p>
+        {commercial.map((c) => <a class="sub" href={`/${c.slug}`}>{c.name}</a>)}
+        <p class="label">Agency</p>
+        {nav.map((n) => <a href={n.href}>{n.label}</a>)}
+        <a href="/carriers">Our Carriers</a>
+        <a href="/faq">FAQ</a>
+        <a href={site.phoneHref}>Call {site.phone}</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <slot />
+  </main>
+
+  {cta && <CtaBand />}
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="cols">
+        <div class="stack" style="gap:14px">
+          <img src="/images/logo-light.png" alt="Insure LI Agency Inc." width="220" height="69" loading="lazy" />
+          <p>Locally owned personal &amp; commercial insurance. Proudly serving New York, New Jersey and Florida.</p>
+        </div>
+        <div>
+          <h3>Contact</h3>
+          <a href={site.mapsUrl}>{site.address.street}<br />{site.address.city}, {site.address.state} {site.address.zip}</a>
+          <a href={site.phoneHref}>Office: {site.phone}</a>
+          <a href={site.afterHoursHref}>24/7 after hours: {site.afterHours}</a>
+          <span style="display:block;padding:3px 0">Fax: {site.fax}</span>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </div>
+        <div>
+          <h3>Personal</h3>
+          {personal.map((c) => <a href={`/${c.slug}`}>{c.name}</a>)}
+        </div>
+        <div>
+          <h3>Commercial</h3>
+          {commercial.map((c) => <a href={`/${c.slug}`}>{c.name}</a>)}
+        </div>
+        <div>
+          <h3>Agency</h3>
+          <a href="/quote">Get a Quote</a>
+          <a href="/service-center">Service Center</a>
+          <a href="/reviews">Client Reviews</a>
+          <a href="/about">About Us</a>
+          <a href="/carriers">Our Carriers</a>
+          <a href="/faq">FAQ</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </div>
+      <div class="legal">
+        <p>© {new Date().getFullYear()} Insure LI Agency Inc. All rights reserved. Licensed in NY, NJ &amp; FL.</p>
+        <p>Quotes are subject to underwriting approval. Coverage is not bound until confirmed in writing. <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <div class="mobile-bar" id="mobileBar">
+    <a href={site.phoneHref} class="btn btn-dark">Call us</a>
+    <a href="/quote" class="btn btn-primary">Free quote</a>
+  </div>
+  <button type="button" class="to-top" id="toTop" aria-label="Back to top"><Icon d="M18 15l-6-6-6 6" /></button>
+
+  <script>
+    const header = document.getElementById('header')!;
+    const bar = document.getElementById('mobileBar')!;
+    const top = document.getElementById('toTop')!;
+    const onScroll = () => {
+      const y = window.scrollY;
+      header.classList.toggle('scrolled', y > 40);
+      bar.classList.toggle('show', y > 500 && !location.pathname.startsWith('/quote'));
+      top.classList.toggle('show', y > 900);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    top.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+    const btn = document.getElementById('menuBtn')!;
+    const mnav = document.getElementById('mobileNav')!;
+    btn.addEventListener('click', () => {
+      const open = mnav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    });
+
+    // Scroll reveal
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal, .stagger').forEach((el) => io.observe(el));
+
+    // Count-up numbers
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const cio = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        const el = e.target as HTMLElement;
+        cio.unobserve(el);
+        const end = Number(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        if (reduce) { el.textContent = end + suffix; continue; }
+        const t0 = performance.now();
+        const step = (t: number) => {
+          const p = Math.min(1, (t - t0) / 1400);
+          el.textContent = Math.round(end * (1 - Math.pow(1 - p, 3))) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      }
+    }, { threshold: 0.5 });
+    document.querySelectorAll<HTMLElement>('[data-count]').forEach((el) => cio.observe(el));
+  </script>
+</body>
+</html>

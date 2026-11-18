@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import TeamGrid from '../components/TeamGrid.astro';
+import CarrierMarquee from '../components/CarrierMarquee.astro';
+import { site } from '../data/site';
+const values = [
+  { t: 'Independent', d: 'We’re appointed with multiple carriers, so our advice isn’t tied to one company.' },
+  { t: 'Family-run', d: 'Brothers Michael and Steven Torre run the agency, and you’ll talk to the same people every time.' },
+  { t: 'Local', d: 'Our office is on Hicksville Road in Massapequa. Stop by during business hours.' },
+  { t: 'There after the sale', d: 'Claims, changes, certificates and renewals. We stay involved for the life of your policy.' },
+];
+---
+<Base title="About Us" description="Insure LI Agency is a family-run independent insurance agency in Massapequa, NY, serving clients in New York, New Jersey and Florida." section="about">
+  <PageHero eyebrow="About us" title="A family-run agency that works for you" lead="Insure LI Agency Inc. provides personal, commercial and life insurance to families and businesses in New York, New Jersey and Florida from our office in Massapequa." />
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head reveal"><div class="stack"><p class="eyebrow">Meet our team</p><h2 class="h2">The people you'll work with</h2></div></div>
+      <TeamGrid />
+    </div>
+  </section>
+
+  <section class="section bg-navy">
+    <div class="wrap">
+      <div class="section-head reveal"><div class="stack"><p class="eyebrow">What makes us different</p><h2 class="h2">Why Long Island chooses Insure LI</h2></div></div>
+      <div class="grid grid-4 stagger">
+        {values.map((v, i) => (
+          <div class="card card-dark lift" style="gap:12px">
+            <p style="font-family:var(--head);font-weight:800;font-size:40px;color:var(--blue)">0{i + 1}</p>
+            <h3 style="color:#fff">{v.t}</h3>
+            <p>{v.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-mist">
+    <div class="wrap grid grid-3 stagger">
+      <div class="card"><h3>Licensed in</h3><p>New York, New Jersey and Florida</p></div>
+      <div class="card"><h3>Business hours</h3><p>{site.hours}<br />Sat – Sun: Closed<br />After-hours line 24/7: <a href={site.afterHoursHref}>{site.afterHours}</a></p></div>
+      <div class="card"><h3>Associations</h3><p>New York Safety Council<br />Property Tax Adjusters, LTD<br />Your Rental Market</p></div>
+    </div>
+  </section>
+
+  <section class="section tight">
+    <div class="wrap stack" style="gap:28px">
+      <p class="eyebrow reveal" style="text-align:center">Carriers we work with include</p>
+      <CarrierMarquee />
+    </div>
+  </section>
+</Base>
