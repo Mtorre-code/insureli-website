@@ -58,6 +58,7 @@ const chevron = 'M6 9l6 6 6-6';
   <meta name="description" content={description} />
   <link rel="canonical" href={canonical} />
   {noindex && <meta name="robots" content="noindex" />}
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="icon" type="image/png" href="/favicon.png" />
   <link rel="apple-touch-icon" href="/images/shield.png" />
   <meta name="theme-color" content="#050D37" />
@@ -89,7 +90,7 @@ const chevron = 'M6 9l6 6 6-6';
 
   <header class="site-header" id="header">
     <div class="wrap">
-      <a href="/" class="logo"><img src="/images/logo-light.png" alt="Insure LI Agency Inc. home" width="912" height="284" /></a>
+      <a href="/" class="logo"><img src="/images/logo.svg" alt="Insure LI Agency Inc. home" width="748" height="238" /></a>
       <nav class="nav" aria-label="Main">
         <a href="/" aria-current={section === 'home' ? 'page' : undefined}>Home</a>
         <div class={`dd ${section === 'personal' ? 'active' : ''}`}>
@@ -142,7 +143,7 @@ const chevron = 'M6 9l6 6 6-6';
     <div class="wrap">
       <div class="cols">
         <div class="stack" style="gap:14px">
-          <img src="/images/logo-light.png" alt="Insure LI Agency Inc." width="220" height="69" loading="lazy" />
+          <img src="/images/logo.svg" alt="Insure LI Agency Inc." width="220" height="70" loading="lazy" style="width:220px;height:auto" />
           <p>Family-run personal &amp; commercial insurance, based in Massapequa, NY. Serving clients in New York, New Jersey, Connecticut, Pennsylvania and Florida.</p>
         </div>
         <div>
