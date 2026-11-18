@@ -7,7 +7,7 @@ const loop = [...carriers, ...carriers];
   <ul class="marquee-track" style="list-style:none;margin:0;padding:0">
     {loop.map((c, i) => (
       <li class="carrier" aria-hidden={i >= carriers.length ? 'true' : undefined}>
-        {c.logo ? <img src={c.logo} alt={c.name} loading="lazy" /> : c.name}
+        <img src={c.logo} alt={c.name} loading="lazy" />
       </li>
     ))}
   </ul>

@@ -9,12 +9,17 @@ import { carriers } from '../data/site';
     <div class="wrap">
       <div class="grid carrier-grid stagger">
         {carriers.map((c) => (
-          <div class="card lift carrier carrier-tile" title={c.name}>
-            {c.logo ? <img src={c.logo} alt={c.name} loading="lazy" /> : <span>{c.name}</span>}
-          </div>
+          <a class="card carrier carrier-tile" href={c.url} target="_blank" rel="noopener noreferrer" aria-label={`${c.name}: ${c.blurb} Visit website (opens in a new tab)`}>
+            <img src={c.logo} alt="" loading="lazy" />
+            <span class="carrier-info" aria-hidden="true">
+              <strong>{c.name}</strong>
+              <span class="blurb">{c.blurb}</span>
+              <span class="visit">Visit website ↗</span>
+            </span>
+          </a>
         ))}
       </div>
-      <p class="reveal" style="text-align:center;margin-top:36px;color:var(--muted)">…and more. Carrier availability depends on the type of coverage, location and underwriting.</p>
+      <p class="reveal" style="text-align:center;margin-top:36px;color:var(--muted)">…and more. Hover over a carrier to learn about it. Availability depends on the type of coverage, location and underwriting.</p>
     </div>
   </section>
 </Base>

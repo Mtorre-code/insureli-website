@@ -43,25 +43,23 @@ export const team = [
   },
 ];
 
-// Carriers from the Master Company List. Add a logo file to /public/carriers/ and set `logo` to use it.
-export const carriers: { name: string; logo?: string }[] = [
-  { name: 'Travelers', logo: '/carriers/travelers.svg' },
-  { name: 'Liberty Mutual', logo: '/carriers/liberty-mutual.svg' },
-  { name: 'Chubb', logo: '/carriers/chubb.png' },
-  { name: 'Progressive', logo: '/carriers/progressive.svg' },
-  { name: 'National General', logo: '/carriers/national-general.png' },
-  { name: 'Mercury', logo: '/carriers/mercury.svg' },
-  { name: 'Hagerty', logo: '/carriers/hagerty.svg' },
-  { name: 'Markel', logo: '/carriers/markel.svg' },
-  { name: 'SageSure', logo: '/carriers/sagesure.png' },
-  { name: 'USLI', logo: '/carriers/usli.png' },
-  { name: 'Lemonade', logo: '/carriers/lemonade.svg' },
-  { name: 'Steadily', logo: '/carriers/steadily.svg' },
-  { name: 'Foremost', logo: '/carriers/foremost.png' },
-  { name: 'Kingstone', logo: '/carriers/kingstone.png' },
-  { name: 'Neptune Flood', logo: '/carriers/neptune-flood.svg' },
-  { name: 'Wright Flood' },
-  { name: 'Thimble' },
+// Carriers from the Master Company List. `blurb` shows on hover on the Carriers page.
+export const carriers: { name: string; logo: string; url: string; blurb: string }[] = [
+  { name: 'Travelers', logo: '/carriers/travelers.svg', url: 'https://www.travelers.com/', blurb: 'One of the largest U.S. property and casualty insurers, with home, auto, umbrella and business coverage.' },
+  { name: 'Liberty Mutual', logo: '/carriers/liberty-mutual.svg', url: 'https://www.libertymutual.com/', blurb: 'A global insurer offering home, auto, umbrella and business coverage.' },
+  { name: 'Chubb', logo: '/carriers/chubb.png', url: 'https://www.chubb.com/', blurb: 'Known for high-value homes, collections and business insurance.' },
+  { name: 'Progressive', logo: '/carriers/progressive.svg', url: 'https://www.progressive.com/', blurb: 'Auto, motorcycle, boat and commercial auto insurance.' },
+  { name: 'National General', logo: '/carriers/national-general.png', url: 'https://www.nationalgeneral.com/', blurb: 'An Allstate company offering auto, home and specialty coverage.' },
+  { name: 'Mercury', logo: '/carriers/mercury.svg', url: 'https://www.mercuryinsurance.com/', blurb: 'Auto, home and business insurance.' },
+  { name: 'Hagerty', logo: '/carriers/hagerty.svg', url: 'https://www.hagerty.com/', blurb: 'Specialty insurance for classic and collector vehicles.' },
+  { name: 'Markel', logo: '/carriers/markel.svg', url: 'https://www.markel.com/', blurb: 'Specialty insurance for businesses and hard-to-place risks.' },
+  { name: 'SageSure', logo: '/carriers/sagesure.png', url: 'https://www.sagesure.com/', blurb: 'Homeowners coverage for coastal and storm-exposed homes.' },
+  { name: 'USLI', logo: '/carriers/usli.png', url: 'https://www.usli.com/', blurb: 'Small business, specialty liability and property insurance.' },
+  { name: 'Lemonade', logo: '/carriers/lemonade.svg', url: 'https://www.lemonade.com/', blurb: 'Digital renters, homeowners, car and pet insurance.' },
+  { name: 'Steadily', logo: '/carriers/steadily.svg', url: 'https://www.steadily.com/', blurb: 'Landlord and rental property insurance.' },
+  { name: 'Foremost', logo: '/carriers/foremost.png', url: 'https://www.foremost.com/', blurb: 'Specialty coverage for mobile homes, rental properties, motorcycles, RVs and boats.' },
+  { name: 'Kingstone', logo: '/carriers/kingstone.png', url: 'https://www.kingstoneinsurance.com/', blurb: 'A New York-based property insurer focused on homeowners coverage in the Northeast.' },
+  { name: 'Neptune Flood', logo: '/carriers/neptune-flood.svg', url: 'https://neptuneflood.com/', blurb: 'Private flood insurance, an alternative to the federal flood program (NFIP).' },
 ];
 
 export const reviews = [
