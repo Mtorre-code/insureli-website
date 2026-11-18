@@ -37,7 +37,7 @@ export const team = [
   },
   {
     name: 'Jakki Agopian',
-    title: 'Office Manager',
+    title: 'Office Manager & Licensed Insurance Broker',
     email: 'jakki@insureli.com',
     photo: '/images/jakki-agopian.jpg',
   },
@@ -49,6 +49,7 @@ export const carriers: { name: string; logo: string; url: string; blurb: string 
   { name: 'Liberty Mutual', logo: '/carriers/liberty-mutual.svg', url: 'https://www.libertymutual.com/', blurb: 'A global insurer offering home, auto, umbrella and business coverage.' },
   { name: 'Chubb', logo: '/carriers/chubb.png', url: 'https://www.chubb.com/', blurb: 'Known for high-value homes, collections and business insurance.' },
   { name: 'Progressive', logo: '/carriers/progressive.svg', url: 'https://www.progressive.com/', blurb: 'Auto, motorcycle, boat and commercial auto insurance.' },
+  { name: 'Plymouth Rock', logo: '/carriers/plymouth-rock.svg', url: 'https://www.plymouthrock.com/', blurb: 'Plymouth Rock Assurance offers auto and home insurance across the Northeast.' },
   { name: 'National General', logo: '/carriers/national-general.png', url: 'https://www.nationalgeneral.com/', blurb: 'An Allstate company offering auto, home and specialty coverage.' },
   { name: 'Mercury', logo: '/carriers/mercury.svg', url: 'https://www.mercuryinsurance.com/', blurb: 'Auto, home and business insurance.' },
   { name: 'Hagerty', logo: '/carriers/hagerty.svg', url: 'https://www.hagerty.com/', blurb: 'Specialty insurance for classic and collector vehicles.' },
