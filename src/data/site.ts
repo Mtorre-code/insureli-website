@@ -57,10 +57,9 @@ export const carriers: { name: string; logo?: string }[] = [
   { name: 'USLI', logo: '/carriers/usli.png' },
   { name: 'Lemonade', logo: '/carriers/lemonade.svg' },
   { name: 'Steadily', logo: '/carriers/steadily.svg' },
-  { name: 'GEICO' },
-  { name: 'Foremost' },
-  { name: 'Kingstone' },
-  { name: 'Neptune Flood' },
+  { name: 'Foremost', logo: '/carriers/foremost.png' },
+  { name: 'Kingstone', logo: '/carriers/kingstone.png' },
+  { name: 'Neptune Flood', logo: '/carriers/neptune-flood.svg' },
   { name: 'Wright Flood' },
   { name: 'Thimble' },
 ];
