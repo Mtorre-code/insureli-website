@@ -4,7 +4,7 @@
 // reviews Google shares (up to 5), and returns them newest first. Netlify's
 // CDN caches the answer for 12 hours, so Google is called about twice a day.
 //
-// Needs the GOOGLE_PLACES_API_KEY environment variable in Netlify.
+// Needs a Google API key in Netlify, as GOOGLE_PLACES_API_KEY or API_KEY.
 // GOOGLE_PLACE_ID is optional; without it the place is looked up by name.
 
 const QUERY = 'Insure LI Agency Inc, 582 Hicksville Road, Massapequa, NY 11758';
@@ -75,15 +75,20 @@ export function shapeReviews(place) {
 }
 
 export default async () => {
-  const key = process.env.GOOGLE_PLACES_API_KEY;
-  if (!key) return json({ error: 'not_configured' }, 503, 'no-store');
-  try {
-    const place = await fetchPlace(key, process.env.GOOGLE_PLACE_ID);
-    return json(shapeReviews(place), 200, 'public, durable, s-maxage=43200, stale-while-revalidate=86400');
-  } catch (err) {
-    console.error(err);
-    return json({ error: 'unavailable', detail: err.detail || err.message }, 502, 'public, s-maxage=300');
+  // Either variable name works; each key that is set is tried in turn.
+  const keys = [...new Set([process.env.GOOGLE_PLACES_API_KEY, process.env.API_KEY].filter(Boolean))];
+  if (!keys.length) return json({ error: 'not_configured' }, 503, 'no-store');
+  let lastErr;
+  for (const key of keys) {
+    try {
+      const place = await fetchPlace(key, process.env.GOOGLE_PLACE_ID);
+      return json(shapeReviews(place), 200, 'public, durable, s-maxage=43200, stale-while-revalidate=86400');
+    } catch (err) {
+      console.error(err);
+      lastErr = err;
+    }
   }
+  return json({ error: 'unavailable', detail: lastErr.detail || lastErr.message }, 502, 'public, s-maxage=300');
 };
 
 export const config = { path: '/api/reviews' };

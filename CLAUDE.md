@@ -22,7 +22,7 @@ Public website for Insure LI Agency Inc. (Massapequa, NY), live at https://insur
 
 ## Reviews
 - Saved reviews live in `src/data/site.ts` (`reviews`).
-- Live Google reviews come from `netlify/functions/reviews.mjs` at `/api/reviews`. It uses Google Places (New) with the `GOOGLE_PLACES_API_KEY` Netlify environment variable, and `GOOGLE_PLACE_ID` is optional. Netlify's CDN caches the result for 12 hours, and Google shares at most 5 reviews.
+- Live Google reviews come from `netlify/functions/reviews.mjs` at `/api/reviews`. It uses Google Places (New) with a Google key in the `GOOGLE_PLACES_API_KEY` or `API_KEY` Netlify environment variable (each is tried), and `GOOGLE_PLACE_ID` is optional. Netlify's CDN caches the result for 12 hours, and Google shares at most 5 reviews.
 - Pages fetch the live reviews in the browser (`src/scripts/live-reviews.ts`). They show newest first, with a "New" badge for reviews under 60 days old. If the service is down, the saved reviews still show.
 - Coverage pages show reviews matching the page's topic first (the `topics` map in `src/pages/[slug].astro`).
 
