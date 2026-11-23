@@ -26,7 +26,7 @@ async function googleError(res, step) {
   try {
     const e = (await res.json())?.error;
     const reason = e?.details?.find((d) => d.reason)?.reason;
-    status = [e?.status, reason].filter(Boolean).join(' ');
+    status = [e?.status, reason, e?.message && `- ${String(e.message).replace(/AIza[\w-]+/g, '[key]').slice(0, 300)}`].filter(Boolean).join(' ');
   } catch {}
   const err = new Error(`${step} failed: ${res.status} ${status}`);
   err.detail = `${res.status} ${status}`.trim();
