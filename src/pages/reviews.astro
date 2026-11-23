@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
+import ReviewCarousel from '../components/ReviewCarousel.astro';
 import { site, reviews, fmtDate } from '../data/site';
 const sorted = [...reviews].sort((a, b) => b.d.localeCompare(a.d));
 ---
@@ -12,6 +13,12 @@ const sorted = [...reviews].sort((a, b) => b.d.localeCompare(a.d));
       <a href={site.reviewsUrl} class="btn btn-ghost">View all on Google</a>
     </div>
   </PageHero>
+
+  <section class="section" aria-label="Featured reviews">
+    <div class="wrap" style="max-width:900px">
+      <ReviewCarousel />
+    </div>
+  </section>
 
   <section class="section tight" id="latest" hidden>
     <div class="wrap">
