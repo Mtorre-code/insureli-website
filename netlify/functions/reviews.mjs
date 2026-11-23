@@ -20,13 +20,22 @@ const json = (body, status, cache) =>
     },
   });
 
+// Google's error type (e.g. PERMISSION_DENIED), never the key itself.
+async function googleError(res, step) {
+  let status = '';
+  try { status = (await res.json())?.error?.status || ''; } catch {}
+  const err = new Error(`${step} failed: ${res.status} ${status}`);
+  err.detail = `${res.status} ${status}`.trim();
+  return err;
+}
+
 async function fetchPlace(key, placeId) {
   const headers = { 'X-Goog-Api-Key': key };
   if (placeId) {
     const res = await fetch(`https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`, {
       headers: { ...headers, 'X-Goog-FieldMask': FIELDS.join(',') },
     });
-    if (!res.ok) throw new Error(`Place details failed: ${res.status}`);
+    if (!res.ok) throw await googleError(res, 'Place details');
     return res.json();
   }
   const res = await fetch('https://places.googleapis.com/v1/places:searchText', {
@@ -34,7 +43,7 @@ async function fetchPlace(key, placeId) {
     headers: { ...headers, 'Content-Type': 'application/json', 'X-Goog-FieldMask': FIELDS.map((f) => `places.${f}`).join(',') },
     body: JSON.stringify({ textQuery: QUERY, maxResultCount: 1 }),
   });
-  if (!res.ok) throw new Error(`Place search failed: ${res.status}`);
+  if (!res.ok) throw await googleError(res, 'Place search');
   const data = await res.json();
   if (!data.places?.length) throw new Error('Place not found');
   return data.places[0];
@@ -69,7 +78,7 @@ export default async () => {
     return json(shapeReviews(place), 200, 'public, durable, s-maxage=43200, stale-while-revalidate=86400');
   } catch (err) {
     console.error(err);
-    return json({ error: 'unavailable' }, 502, 'public, s-maxage=300');
+    return json({ error: 'unavailable', detail: err.detail || err.message }, 502, 'public, s-maxage=300');
   }
 };
 
