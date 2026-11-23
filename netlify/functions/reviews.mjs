@@ -23,7 +23,11 @@ const json = (body, status, cache) =>
 // Google's error type (e.g. PERMISSION_DENIED), never the key itself.
 async function googleError(res, step) {
   let status = '';
-  try { status = (await res.json())?.error?.status || ''; } catch {}
+  try {
+    const e = (await res.json())?.error;
+    const reason = e?.details?.find((d) => d.reason)?.reason;
+    status = [e?.status, reason].filter(Boolean).join(' ');
+  } catch {}
   const err = new Error(`${step} failed: ${res.status} ${status}`);
   err.detail = `${res.status} ${status}`.trim();
   return err;
