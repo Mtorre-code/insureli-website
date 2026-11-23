@@ -1,13 +1,22 @@
 ---
 import { reviews, fmtDate } from '../data/site';
 import Icon from './Icon.astro';
-const picks = reviews.filter((r) => r.t.length > 120).slice(0, 8);
+
+interface Props {
+  // Regex source (case-insensitive) for reviews about this page's topic, e.g. "car|auto".
+  topic?: string;
+}
+const { topic } = Astro.props;
+const re = topic ? new RegExp(topic, 'i') : null;
+const long = reviews.filter((r) => r.t.length > 120);
+const onTopic = re ? reviews.filter((r) => re.test(r.t)) : [];
+const picks = [...onTopic, ...long.filter((r) => !onTopic.includes(r))].slice(0, 8);
 ---
-<div class="review-carousel" data-carousel>
+<div class="review-carousel" data-carousel data-topic={topic || ''}>
   <p class="stars" style="font-size:24px;letter-spacing:4px" aria-label="5 out of 5 stars">★★★★★</p>
   <div class="review-stage" aria-live="polite">
     {picks.map((r, i) => (
-      <figure class={`review-slide ${i === 0 ? 'active' : ''}`} aria-hidden={i === 0 ? 'false' : 'true'}>
+      <figure class={`review-slide ${i === 0 ? 'active' : ''}`} aria-hidden={i === 0 ? 'false' : 'true'} data-key={`${r.n.split(' ')[0]}|${r.t.slice(0, 40)}`.toLowerCase()}>
         <blockquote>“{r.t}”</blockquote>
         <figcaption><strong style="color:var(--ink)">{r.n}</strong> · Google review · {fmtDate(r.d)}</figcaption>
       </figure>
@@ -16,27 +25,72 @@ const picks = reviews.filter((r) => r.t.length > 120).slice(0, 8);
   <div class="review-controls">
     <button type="button" class="round-btn" data-prev aria-label="Previous review"><Icon d="M15 18l-6-6 6-6" /></button>
     <button type="button" class="round-btn" data-next aria-label="Next review" style="background:var(--navy);color:#fff"><Icon d="M9 6l6 6-6 6" /></button>
-    <div class="dots">
-      {picks.map((_, i) => <button type="button" aria-label={`Show review ${i + 1}`} aria-current={i === 0 ? 'true' : 'false'} data-go={i}></button>)}
-    </div>
+    <div class="dots" data-dots></div>
   </div>
 </div>
 <script>
-  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => {
-    const slides = [...root.querySelectorAll<HTMLElement>('.review-slide')];
-    const dots = [...root.querySelectorAll<HTMLElement>('[data-go]')];
+  import { loadLiveReviews, reviewKey, isNew, reviewDate } from '../scripts/live-reviews';
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(async (root) => {
+    const stage = root.querySelector<HTMLElement>('.review-stage')!;
+    const dotsBox = root.querySelector<HTMLElement>('[data-dots]')!;
+    let slides: HTMLElement[] = [];
+    let dots: HTMLButtonElement[] = [];
     let idx = 0;
     let hold = false;
+
     const show = (k: number) => {
       idx = (k + slides.length) % slides.length;
       slides.forEach((s, i) => { s.classList.toggle('active', i === idx); s.setAttribute('aria-hidden', String(i !== idx)); });
       dots.forEach((d, i) => d.setAttribute('aria-current', String(i === idx)));
     };
+    const rebuild = () => {
+      slides = [...stage.querySelectorAll<HTMLElement>('.review-slide')];
+      dotsBox.textContent = '';
+      dots = slides.map((_, i) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.setAttribute('aria-label', `Show review ${i + 1}`);
+        b.addEventListener('click', () => { hold = true; show(i); });
+        dotsBox.appendChild(b);
+        return b;
+      });
+      show(0);
+    };
+    rebuild();
+
     root.querySelector('[data-prev]')!.addEventListener('click', () => { hold = true; show(idx - 1); });
     root.querySelector('[data-next]')!.addEventListener('click', () => { hold = true; show(idx + 1); });
-    dots.forEach((d) => d.addEventListener('click', () => { hold = true; show(Number(d.dataset.go)); }));
     root.addEventListener('mouseenter', () => (hold = true));
     root.addEventListener('mouseleave', () => (hold = false));
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { if (!hold) show(idx + 1); }, 6500);
+
+    // Put live Google reviews first (newest first), skipping any already shown.
+    const live = await loadLiveReviews();
+    if (!live?.reviews.length) return;
+    const topic = root.dataset.topic ? new RegExp(root.dataset.topic, 'i') : null;
+    const shown = new Set(slides.map((s) => s.dataset.key));
+    const fresh = live.reviews.filter((r) => r.text.length > 60 && !shown.has(reviewKey(r.name, r.text)) && (!topic || topic.test(r.text)));
+    if (!fresh.length) return;
+    fresh.reverse().forEach((r) => {
+      const fig = document.createElement('figure');
+      fig.className = 'review-slide';
+      const q = document.createElement('blockquote');
+      q.textContent = `“${r.text}”`;
+      const cap = document.createElement('figcaption');
+      const who = document.createElement('strong');
+      who.style.color = 'var(--ink)';
+      who.textContent = r.name;
+      cap.append(who, ` · Google review · ${reviewDate(r)}`);
+      if (isNew(r)) {
+        const badge = document.createElement('span');
+        badge.className = 'new-badge';
+        badge.textContent = 'New';
+        cap.append(' ', badge);
+      }
+      fig.append(q, cap);
+      stage.prepend(fig);
+    });
+    rebuild();
   });
 </script>

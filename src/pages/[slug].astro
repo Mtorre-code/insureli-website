@@ -18,6 +18,18 @@ const faqSchema = {
   '@type': 'FAQPage',
   mainEntity: c.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
 };
+// Reviews that mention this page's topic are shown first.
+const topics: Record<string, string> = {
+  'auto-insurance': 'car|auto|driv',
+  'homeowners-insurance': 'home|house',
+  'flood-insurance': 'flood|home',
+  'umbrella-insurance': 'umbrella|coverage',
+  'landlord-insurance': 'landlord|rental|tenant|home',
+  'renters-insurance': 'renter',
+  'boat-rv-motorcycle-insurance': 'boat|rv|motorcycle',
+  'life-insurance': 'life',
+};
+const topic = topics[c.slug] || (c.group === 'commercial' ? 'business|commercial|contractor|company' : undefined);
 const quoteHref = `/quote?lines=${encodeURIComponent(c.quoteLine)}`;
 ---
 <Base title={c.title} description={c.summary} section={c.group} schema={[faqSchema]}>
@@ -82,7 +94,7 @@ const quoteHref = `/quote?lines=${encodeURIComponent(c.quoteLine)}`;
 
   <section class="section bg-mist">
     <div class="wrap" style="max-width:900px">
-      <ReviewCarousel />
+      <ReviewCarousel topic={topic} />
     </div>
   </section>
 

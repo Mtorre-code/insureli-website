@@ -226,7 +226,7 @@ a.card:hover .icon-badge svg { stroke: #fff; }
 
 /* ---------- Reviews ---------- */
 .review-stage { position: relative; min-height: 260px; }
-.review-slide { position: absolute; inset: 0; opacity: 0; transform: translateX(40px); transition: opacity .6s var(--ease), transform .6s var(--ease); pointer-events: none; }
+.review-slide { margin: 0; position: absolute; inset: 0; opacity: 0; transform: translateX(40px); transition: opacity .6s var(--ease), transform .6s var(--ease); pointer-events: none; }
 .review-slide.active { opacity: 1; transform: none; position: relative; pointer-events: auto; }
 .review-slide blockquote { margin: 0; font-family: var(--head); font-weight: 700; font-size: clamp(21px, 2.4vw, 28px); line-height: 1.4; }
 .review-slide figcaption { margin-top: 16px; color: var(--muted); }
@@ -237,6 +237,11 @@ a.card:hover .icon-badge svg { stroke: #fff; }
 .dots button { width: 10px; height: 10px; padding: 0; border: 0; border-radius: 999px; background: #c9d3f0; cursor: pointer; transition: width .3s var(--ease), background .3s; }
 .dots button[aria-current='true'] { width: 28px; background: var(--blue); }
 .review-card { break-inside: avoid; margin-bottom: 22px; }
+.new-badge { display: inline-block; vertical-align: middle; margin-left: 6px; padding: 2px 9px; border-radius: 999px; background: var(--blue); color: #fff; font-family: var(--head); font-weight: 700; font-size: 12px; letter-spacing: .5px; text-transform: uppercase; animation: pulse 2.6s ease-out infinite; }
+.stars .new-badge { letter-spacing: .5px; }
+.card .stars { color: var(--gold); }
+.live-rating { font-size: 18px; color: var(--on-dark); }
+.live-rating strong { color: #fff; font-family: var(--head); font-size: 22px; }
 .masonry { columns: 3 320px; column-gap: 22px; }
 
 /* ---------- Team ---------- */

@@ -2,18 +2,28 @@
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import { site, reviews, fmtDate } from '../data/site';
+const sorted = [...reviews].sort((a, b) => b.d.localeCompare(a.d));
 ---
 <Base title="Client Reviews" description="Read real Google reviews from Insure LI Agency clients." section="reviews">
   <PageHero eyebrow="Client reviews" title="What our clients are saying" lead="Real reviews from our clients on Google. Worked with us? We'd love to hear from you.">
+    <p id="liveRating" class="live-rating fade-up d3" hidden></p>
     <div class="fade-up d4" style="display:flex;flex-wrap:wrap;gap:14px;padding-top:8px">
       <a href={site.leaveReviewUrl} class="btn btn-primary">Leave us a Google review</a>
       <a href={site.reviewsUrl} class="btn btn-ghost">View all on Google</a>
     </div>
   </PageHero>
+
+  <section class="section tight" id="latest" hidden>
+    <div class="wrap">
+      <div class="section-head"><div class="stack"><p class="eyebrow">Latest on Google</p><h2 class="h2">Recent reviews</h2></div><p class="lead" style="font-size:15px">Updated automatically from our Google Business Profile.</p></div>
+      <div class="grid grid-3" id="latestGrid"></div>
+    </div>
+  </section>
+
   <section class="section bg-mist">
-    <div class="wrap masonry">
-      {reviews.map((r) => (
-        <figure class="card lift review-card reveal" style="margin:0 0 22px">
+    <div class="wrap masonry" id="allReviews">
+      {sorted.map((r) => (
+        <figure class="card lift review-card reveal" style="margin:0 0 22px" data-key={`${r.n.split(' ')[0]}|${r.t.slice(0, 40)}`.toLowerCase()}>
           <p class="stars" aria-label="5 out of 5 stars">★★★★★</p>
           <blockquote style="margin:0;font-size:17px;line-height:1.6">“{r.t}”</blockquote>
           <figcaption style="color:var(--muted);font-size:15px"><strong style="color:var(--ink)">{r.n}</strong> · Google · {fmtDate(r.d)}</figcaption>
@@ -21,4 +31,54 @@ import { site, reviews, fmtDate } from '../data/site';
       ))}
     </div>
   </section>
+
+  <script>
+    import { loadLiveReviews, reviewKey, isNew, reviewDate } from '../scripts/live-reviews';
+
+    loadLiveReviews().then((live) => {
+      if (!live) return;
+      if (live.rating && live.count) {
+        const el = document.getElementById('liveRating')!;
+        const stars = document.createElement('span');
+        stars.className = 'stars';
+        stars.textContent = '★★★★★';
+        const strong = document.createElement('strong');
+        strong.textContent = live.rating.toFixed(1);
+        el.append(stars, ' ', strong, ` out of 5 from ${live.count} Google reviews`);
+        el.hidden = false;
+      }
+      if (!live.reviews.length) return;
+      const grid = document.getElementById('latestGrid')!;
+      live.reviews.forEach((r) => {
+        // Hide the saved copy of a review that now shows here.
+        document.querySelector<HTMLElement>(`#allReviews [data-key="${CSS.escape(reviewKey(r.name, r.text))}"]`)?.remove();
+        const fig = document.createElement('figure');
+        fig.className = 'card lift review-card';
+        fig.style.margin = '0';
+        const top = document.createElement('p');
+        top.className = 'stars';
+        top.setAttribute('aria-label', `${r.rating} out of 5 stars`);
+        top.textContent = '★'.repeat(r.rating);
+        if (isNew(r)) {
+          const badge = document.createElement('span');
+          badge.className = 'new-badge';
+          badge.textContent = 'New';
+          top.append(' ', badge);
+        }
+        const q = document.createElement('blockquote');
+        q.style.cssText = 'margin:0;font-size:17px;line-height:1.6';
+        q.textContent = `“${r.text}”`;
+        const cap = document.createElement('figcaption');
+        cap.style.cssText = 'color:var(--muted);font-size:15px';
+        const who = document.createElement(r.profile ? 'a' : 'strong');
+        who.textContent = r.name;
+        who.style.cssText = 'color:var(--ink);font-weight:700;text-decoration:none';
+        if (r.profile) { (who as HTMLAnchorElement).href = r.profile; (who as HTMLAnchorElement).target = '_blank'; (who as HTMLAnchorElement).rel = 'noopener noreferrer'; }
+        cap.append(who, ` · Google · ${r.relative || reviewDate(r)}`);
+        fig.append(top, q, cap);
+        grid.append(fig);
+      });
+      document.getElementById('latest')!.hidden = false;
+    });
+  </script>
 </Base>
