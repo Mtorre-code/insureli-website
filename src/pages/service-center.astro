@@ -41,7 +41,7 @@ const types = [...tiles.map((t) => t.t), 'Other'];
           <p>Call your carrier's claims line listed on your policy or ID card, then let us know and we'll help.</p>
         </div>
       </div>
-      <form name="service" method="POST" action="/thank-you?f=service" data-netlify="true" netlify-honeypot="company_website" class="form-card reveal from-right" style="flex:999 1 560px;min-width:0" id="serviceForm">
+      <form name="service" method="POST" action="/thank-you?f=service" data-netlify="true" netlify-honeypot="company_website" data-netlify-recaptcha="true" class="form-card reveal from-right" style="flex:999 1 560px;min-width:0" id="serviceForm">
         <input type="hidden" name="form-name" value="service" />
         <p class="hp"><label>Leave this empty <input name="company_website" tabindex="-1" autocomplete="off" /></label></p>
         <div class="fields">
@@ -51,6 +51,7 @@ const types = [...tiles.map((t) => t.t), 'Other'];
           <div class="field"><label for="se">Email</label><input id="se" name="email" type="email" required autocomplete="email" /></div>
           <div class="field"><label for="pn">Policy number (if handy)</label><input id="pn" name="policy_number" /></div>
           <div class="field full"><label for="sd">Details</label><textarea id="sd" name="details" placeholder="For certificates, include the certificate holder's name and address and any contract requirements."></textarea></div>
+          <div class="field full"><div data-netlify-recaptcha="true"></div></div>
           <div class="field full"><button type="submit" class="btn btn-primary">Submit request <span class="arrow">→</span></button></div>
         </div>
       </form>

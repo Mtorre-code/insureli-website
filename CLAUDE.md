@@ -18,6 +18,7 @@ Public website for Insure LI Agency Inc. (Massapequa, NY), live at https://insur
 
 ## Forms
 - The quote, service and contact forms use **Netlify Forms** (`data-netlify="true"`).
+- The Contact and Service forms use Netlify's built-in reCAPTCHA (`data-netlify-recaptcha`) to stop spam bots. The Quote form doesn't, to keep it easy for customers.
 - Netlify emails every submission to **customerservice@insureli.com**. Change the recipients in Netlify → Forms → Form notifications.
 
 ## Reviews
