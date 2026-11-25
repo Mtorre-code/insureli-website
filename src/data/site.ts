@@ -1,7 +1,7 @@
 export const site = {
   name: 'Insure LI Agency Inc.',
   shortName: 'Insure LI',
-  tagline: "If you don't ask, you won't know.",
+  tagline: "Insure LI, covering you for what's next.",
   url: 'https://insureli.com',
   phone: '(516) 308-4166',
   phoneHref: 'tel:+15163084166',
